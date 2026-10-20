@@ -1,7 +1,6 @@
-﻿.env
-**/.env
-**/.venv/
-**/__pycache__/
-**/*.py[cod]
-**/*.db
-**/*.sqlite*
+.env
+.venv/
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite*
