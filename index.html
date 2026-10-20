@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07528f">
+  <meta name="description" content="Channel Partner application and UPI application-fee payment.">
+  <title>Tata Power Solar — Channel Partner Application</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #236DB2;
+      --blue-dark: #ed7900;
+      --green: #168448;
+      --green-pale: #effaf4;
+      --orange: #ed7900;
+      --red: #bd2b20;
+      --red-pale: #fff3f3;
+      --ink: #233247;
+      --muted: #657384;
+      --line: #e3e9ef;
+      --surface: #fff;
+      --canvas: #f4f7fa;
+      --shadow: 0 18px 54px #003bed0d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 36px 18px;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .shell { width: min(100%, 760px); margin: 0 auto; }
+    .card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .topbar { height: 5px; background: var(--blue); }
+    .topbar.green { background: var(--green); }
+    .topbar.red { background: var(--red); }
+    .header { padding: 25px 28px 21px; border-bottom: 1px solid var(--line); }
+    .brand-row, .title-row, .row-between { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; }
+    .brand-logo { display: block; width: 166px; max-width: 48vw; height: auto; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #cbdff1; border-radius: 999px; padding: 5px 11px; background: #f3f8fc; color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+    .badge.good { border-color: #cdebd7; background: #f1fbf4; color: var(--green); }
+    .badge.bad { border-color: #f0cbcb; background: var(--red-pale); color: var(--red); }
+    h1 { margin: 18px 0 4px; font-size: clamp(22px, 4vw, 27px); letter-spacing: -.035em; line-height: 1.2; }
+    .subtitle { margin: 0; color: var(--muted); font-size: 13px; }
+    .highlight-banner {
+      display: flex;
+      margin-top: 18px;
+      padding: 13px 8px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--blue), #1769aa);
+      color: white;
+      text-align: center;
+    }
+    .highlight-item { flex: 1; padding: 0 6px; }
+    .highlight-item:not(:last-child) { border-right: 1px solid rgba(255,255,255,.22); }
+    .highlight-value { color: #ffd45b; font-size: 17px; font-weight: 850; }
+    .highlight-label { color: #e6eef6; font-size: 9px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+    .content { padding: 24px 28px; }
+    .steps { display: flex; align-items: center; gap: 10px; margin: 0 0 24px; color: #97a1ad; font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .step { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .step-number { display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid #dce3e9; border-radius: 50%; font-size: 10px; }
+    .step.active { color: var(--blue); }
+    .step.active .step-number { border-color: var(--blue); background: var(--blue); color: white; }
+    .step.done { color: var(--green); }
+    .step.done .step-number { border-color: #b9e2c7; background: #effaf4; color: var(--green); }
+    .step-line { flex: 1; min-width: 15px; height: 1px; background: var(--line); }
+    .section-title { margin: 0 0 15px; color: var(--blue); font-size: 12px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+    .form-section { padding: 19px 0; border-top: 1px solid var(--line); }
+    .form-section:first-of-type { padding-top: 0; border-top: 0; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    label, .field-label { display: block; margin-bottom: 6px; color: #425164; font-size: 12px; font-weight: 700; }
+    .required { color: var(--red); }
+    input[type="text"], input[type="tel"], input[type="email"], input[type="password"], select, textarea {
+      width: 100%;
+      min-height: 43px;
+      padding: 10px 12px;
+      border: 1px solid #d5dde5;
+      border-radius: 8px;
+      outline: none;
+      background: #fbfcfd;
+      color: var(--ink);
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    textarea { min-height: 86px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: #4d8fc4; background: white; box-shadow: 0 0 0 3px rgba(7, 82, 143, .10); }
+    .options { display: grid; gap: 8px; padding: 3px 0; }
+    .option { display: flex; align-items: flex-start; gap: 9px; color: #303c49; font-size: 13px; font-weight: 450; cursor: pointer; }
+    .option input { margin: 4px 0 0; accent-color: var(--blue); }
+    .hint { margin: 6px 0 0; color: var(--muted); font-size: 11px; }
+    .notice { margin: 14px 0 0; padding: 12px 14px; border: 1px solid #e6eaf0; border-radius: 9px; background: #fafbfd; color: #566477; font-size: 12px; }
+    .notice.warning { border-color: #f3dfa9; background: #fffbef; color: #775317; }
+    .notice.success { border-color: #cdebd7; background: var(--green-pale); color: #25583a; }
+    .notice.error { border-color: #f0cbcb; background: var(--red-pale); color: #8a241d; }
+    .actions { display: flex; align-items: center; justify-content: center; gap: 10px; padding-top: 21px; }
+    .btn {
+      display: inline-flex;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 17px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: var(--blue);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .15s, transform .15s, opacity .15s;
+    }
+    .btn:hover:not(:disabled) { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .btn.green { background: #159447; }
+    .btn.green:hover:not(:disabled) { background: #107b39; }
+    .btn.orange { background: var(--orange); }
+    .btn.orange:hover:not(:disabled) { background: #d56c00; }
+    .btn.red { background: var(--red); }
+    .btn.outline { border-color: #d8e0e7; background: #fff; color: #384657; }
+    .btn.outline:hover:not(:disabled) { background: #f5f8fa; }
+    .btn.block { width: 100%; }
+    .btn.small { min-height: 34px; padding: 7px 10px; font-size: 11px; }
+    .fee-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: #fcfdfe; }
+    .fee-title { font-size: 13px; font-weight: 800; }
+    .fee-caption { color: var(--muted); font-size: 11px; }
+    .fee-amount { color: var(--blue); font-size: 25px; font-weight: 850; letter-spacing: -.04em; }
+    .pay-grid { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 17px; align-items: center; padding: 16px; border: 1px solid #cfe9dc; border-radius: 11px; background: var(--green-pale); }
+    .qr-wrap { display: grid; min-height: 174px; place-items: center; padding: 10px; border: 1px solid #e0e7e2; border-radius: 9px; background: white; }
+    .qr-wrap img { width: 100%; max-width: 155px; height: auto; image-rendering: pixelated; }
+    .upi-label { margin-bottom: 5px; color: #286448; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .copy-row { display: flex; gap: 7px; }
+    .copy-row input { min-width: 0; background: white; color: #203448; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; }
+    .instructions { display: grid; gap: 5px; margin: 10px 0 13px; padding-left: 17px; color: #42634f; font-size: 11px; }
+    .utr-card { margin-top: 15px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; }
+    .utr-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; align-items: end; }
+    .status-panel { display: flex; gap: 11px; align-items: flex-start; padding: 16px; border: 1px solid #f0dfa9; border-radius: 10px; background: #fffbef; }
+    .status-icon { display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; border-radius: 50%; background: #fff0bf; color: #916113; font-weight: 900; }
+    .status-panel h2 { margin: 0 0 3px; font-size: 16px; }
+    .status-panel p { margin: 0; color: #765b2b; font-size: 12px; }
+    .result-panel { margin: 0 0 16px; padding: 23px 17px; border: 1px solid #cce8d5; border-radius: 11px; background: #f2fbf5; text-align: center; }
+    .result-panel.failed { border-color: #f0cbcb; background: var(--red-pale); }
+    .result-icon { display: grid; width: 48px; height: 48px; margin: 0 auto 9px; place-items: center; border-radius: 50%; background: #d8f2e1; color: var(--green); font-size: 22px; font-weight: 900; }
+    .failed .result-icon { background: #f9dede; color: var(--red); }
+    .result-panel h2 { margin: 0 0 5px; font-size: 18px; }
+    .result-panel p { max-width: 510px; margin: 0 auto; color: #536273; font-size: 12px; }
+    .ref-card { margin: 15px 0; padding: 16px; border: 1px solid var(--line); border-radius: 10px; }
+    .ref-label { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .ref-number { margin-top: 3px; color: var(--blue); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 21px; font-weight: 850; letter-spacing: .04em; }
+    .footer { padding: 15px 24px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 1.65; text-align: center; }
+    .footer strong { color: #004ebac3; }
+    .hidden { display: none !important; }
+    .admin-login { max-width: 390px; margin: 10px auto; }
+    .admin-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 9px; }
+    .admin-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
+    .admin-table th, .admin-table td { padding: 10px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .admin-table th { background: #f7f9fb; color: #4a5869; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
+    .admin-table tr:last-child td { border-bottom: 0; }
+    .admin-actions { display: flex; gap: 6px; min-width: 145px; }
+    .admin-section { margin: 18px 0; }
+    .admin-section h2 { font-size: 15px; }
+    .toast { position: fixed; right: 18px; bottom: 18px; z-index: 10; max-width: min(420px, calc(100vw - 36px)); padding: 12px 16px; border-radius: 9px; background: #182230; color: white; box-shadow: var(--shadow); font-size: 12px; }
+    .loading { opacity: .65; pointer-events: none; }
+    body.application-mode { --blue: #095397; --blue-dark: #1467b4; }
+    body.application-mode { padding: 32px 24px; font-size: 16px; }
+    body.application-mode .shell { width: min(100%, 980px); }
+    body.application-mode .card { border-radius: 16px; box-shadow: 0 16px 48px rgba(15, 40, 70, .12); animation: card-enter .65s cubic-bezier(.2,.75,.25,1) both; }
+    body.application-mode .topbar { display: none; }
+    body.application-mode .header { padding: 30px 36px 26px; border-top: 6px solid var(--blue); }
+    body.application-mode .brand-logo { width: 190px; height: 46px; object-fit: contain; object-position: left center; }
+    body.application-mode #headerBadge { padding: 7px 14px; background: #eef6ff; border-color: #bce0fd; color: var(--blue); font-size: 12px; letter-spacing: .5px; }
+    body.application-mode h1 { margin: 0 0 7px; font-size: clamp(26px, 3vw, 32px); letter-spacing: 0; }
+    body.application-mode .subtitle { margin-bottom: 19px; font-size: 15px; }
+    body.application-mode .highlight-banner { margin-top: 0; padding: 17px; border-radius: 10px; background: linear-gradient(135deg, #095397, #1467b4); }
+    body.application-mode .highlight-value { color: #ffc107; font-size: 21px; }
+    body.application-mode .highlight-label { color: #e2e8f0; font-size: 13px; letter-spacing: 0; }
+    body.application-mode .content { padding: 0; }
+    body.application-mode .steps { display: none; }
+    body.application-mode .form-section { padding: 25px 36px; border-top: 0; border-bottom: 1px solid #e2e8f0; animation: section-enter .55s both; }
+    body.application-mode .form-section:nth-of-type(2) { animation-delay: .08s; }
+    body.application-mode .form-section:nth-of-type(3) { animation-delay: .16s; }
+    body.application-mode .form-section:first-of-type { padding-top: 27px; }
+    body.application-mode .section-title { margin-bottom: 17px; padding-bottom: 8px; border-bottom: 2px solid #f1f5f9; color: var(--blue); font-size: 16px; letter-spacing: .5px; }
+    body.application-mode label, body.application-mode .field-label { margin-bottom: 8px; color: #334155; font-size: 15px; line-height: 1.45; }
+    body.application-mode input[type="text"], body.application-mode input[type="tel"], body.application-mode input[type="email"], body.application-mode select, body.application-mode textarea { min-height: 48px; padding: 12px 14px; border-color: #cbd5e1; border-radius: 8px; background: #f8fafc; font-size: 15px; }
+    body.application-mode input:focus, body.application-mode select:focus, body.application-mode textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(9, 83, 151, .13); }
+    body.application-mode .grid { gap: 19px 22px; }
+    body.application-mode .options { gap: 10px; margin-top: 5px; }
+    body.application-mode .option { align-items: flex-start; gap: 10px; color: #0f172a; font-size: 15px; line-height: 1.5; }
+    body.application-mode .option input { width: 17px; height: 17px; flex: 0 0 17px; margin: 2px 0 0; }
+    body.application-mode .required { color: #2878e1; }
+    body.application-mode .input-with-btn, body.application-mode .otp-input-group { display: flex; gap: 10px; }
+    body.application-mode .btn-verify, body.application-mode .btn-otp-submit {
+      position: relative;
+      overflow: hidden;
+      min-height: 48px;
+      flex: 0 0 auto;
+      padding: 0 19px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #25d366, #149447);
+      color: white;
+      font-size: 15px;
+      font-weight: 750;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(22, 132, 72, .24);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      animation: verify-glow 2.8s ease-in-out infinite;
+    }
+    body.application-mode .btn-verify::after, body.application-mode .btn-otp-submit::after {
+      position: absolute;
+      top: -40%;
+      bottom: -40%;
+      left: -65%;
+      width: 42%;
+      content: "";
+      transform: skewX(-22deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+      animation: button-shine 3.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    body.application-mode .btn-verify:hover, body.application-mode .btn-otp-submit:hover { transform: translateY(-2px); box-shadow: 0 9px 20px rgba(22, 132, 72, .32); }
+    body.application-mode .btn-verify:active, body.application-mode .btn-otp-submit:active { transform: translateY(0); }
+    body.application-mode .btn-verify:focus-visible, body.application-mode .btn-otp-submit:focus-visible { outline: 3px solid #86efac; outline-offset: 3px; }
+    body.application-mode .verified-badge { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: #15803d; font-size: 14px; font-weight: 750; animation: verified-enter .35s ease-out both; }
+    body.application-mode .otp-box { margin-top: 12px; padding: 16px; border: 1px dashed #25d366; border-radius: 9px; background: #f0fdf4; animation: section-enter .3s ease-out both; }
+    body.application-mode .otp-box p { margin: 0 0 10px; color: #166534; font-size: 14px; }
+    body.application-mode .verification-disclaimer { margin-top: 9px; color: #775317; font-size: 13px; line-height: 1.55; }
+    body.application-mode .hint { font-size: 13px; line-height: 1.5; }
+    body.application-mode .notice { font-size: 14px; line-height: 1.5; }
+    body.application-mode #startPaymentBtn { min-height: 50px; padding: 12px 28px; background: #ed7900; color: #fff; font-size: 16px; letter-spacing: .8px; text-transform: uppercase; }
+    body.application-mode #startPaymentBtn:hover:not(:disabled) { background: #e06d00; }
+    body.application-mode .actions { padding: 25px 36px 0; }
+    body.application-mode .footer { padding: 0 36px 25px; border-top: 0; font-size: 13px; }
+    @keyframes card-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes section-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes verify-glow { 0%, 100% { box-shadow: 0 6px 16px rgba(22, 132, 72, .2); } 50% { box-shadow: 0 7px 22px rgba(22, 132, 72, .36); } }
+    @keyframes button-shine { 0%, 24% { left: -65%; } 58%, 100% { left: 130%; } }
+    @keyframes verified-enter { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .error-overlay { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(15,23,42,.85); }
+    .error-modal { width: 100%; max-width: 480px; padding: 24px; border-top: 6px solid var(--red); border-radius: 12px; background: white; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,.3); }
+    .error-title { margin-bottom: 8px; color: var(--red); font-size: 18px; font-weight: 700; }
+    .error-desc { margin-bottom: 20px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    @media (max-width: 600px) {
+      body { padding: 13px 10px; }
+      .header { padding: 20px 18px 17px; }
+      .content { padding: 20px 18px; }
+      .footer { padding-right: 16px; padding-left: 16px; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .field.full { grid-column: auto; }
+      .pay-grid { grid-template-columns: 1fr; }
+      .qr-wrap { min-height: 170px; }
+      .qr-wrap img { max-width: 145px; }
+      .utr-row { grid-template-columns: 1fr; }
+      .utr-row .btn { width: 100%; }
+      .steps { gap: 6px; font-size: 9px; }
+      .step { gap: 4px; }
+      .step-number { width: 20px; height: 20px; }
+      .fee-amount { font-size: 22px; }
+      body.application-mode { padding: 13px 10px; }
+      body.application-mode .header { padding: 20px 18px; }
+      body.application-mode .form-section { padding: 20px 18px; }
+      body.application-mode .footer { padding: 0 18px 20px; }
+      body.application-mode .input-with-btn, body.application-mode .otp-input-group { flex-wrap: wrap; }
+      body.application-mode .btn-verify, body.application-mode .btn-otp-submit { min-height: 48px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <article class="card">
+      <div id="topbar" class="topbar"></div>
+      <header class="header">
+        <div class="brand-row">
+          <div class="brand"><img class="brand-logo" src="tata-power-logo.svg" alt="Tata Power Solar"></div>
+          <span id="headerBadge" class="badge">Official Application</span>
+        </div>
+        <h1 id="pageTitle">Channel Partner Registration Form</h1>
+        <p id="pageSubtitle" class="subtitle">West Bengal Network Expansion Drive | Government Registered Franchise Program</p>
+        <div id="applicationHighlights" class="highlight-banner">
+          <div class="highlight-item"><div class="highlight-value">0%</div><div class="highlight-label">Down Payment</div></div>
+          <div class="highlight-item"><div class="highlight-value">Up to 20%</div><div class="highlight-label">Profit Margin</div></div>
+          <div class="highlight-item"><div class="highlight-value">100%</div><div class="highlight-label">Brand Support</div></div>
+        </div>
+      </header>
+
+      <section id="applicationView" class="content">
+        <div class="steps" aria-label="Application progress">
+          <span class="step active"><span class="step-number">1</span> Application</span>
+          <span class="step-line"></span>
+          <span class="step"><span class="step-number">2</span> Payment</span>
+          <span class="step-line"></span>
+          <span class="step"><span class="step-number">3</span> Submission</span>
+        </div>
+        <form id="applicationForm">
+          <section class="form-section">
+            <h2 class="section-title">1. Applicant Details</h2>
+            <div class="grid">
+              <div class="field">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input id="fullName" name="full_name" type="text" autocomplete="name" maxlength="120" placeholder="Enter your full name" required>
+              </div>
+              <div class="field">
+                <label for="phone">Primary Phone Number <span class="required">*</span></label>
+                <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" required>
+              </div>
+              <div class="field">
+                <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
+                <div class="input-with-btn">
+                  <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="Enter WhatsApp number" required>
+                  <button type="button" id="sendOtpBtn" class="btn-verify">Send OTP</button>
+                </div>
+                <div id="verifiedBadge" class="verified-badge hidden">✓ Code matched (demo only; not identity verified)</div>
+                <div id="otpBox" class="otp-box hidden">
+                  <p>Enter the 6-digit code shown in the prefilled WhatsApp message:</p>
+                  <div class="otp-input-group">
+                    <input type="text" id="otpInput" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="ENTER OTP" autocomplete="one-time-code">
+                    <button type="button" id="verifyOtpBtn" class="btn-otp-submit">Verify</button>
+                  </div>
+                </div>
+                <p class="verification-disclaimer">Demo only: the code is generated in this browser and placed in a WhatsApp message for you to send. This does not prove phone ownership and can be bypassed; do not use as secure verification.</p>
+              </div>
+              <div class="field">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="example@domain.com" required>
+              </div>
+              <div class="field full">
+                <label for="district">District &amp; Location in West Bengal <span class="required">*</span></label>
+                <input id="district" name="district" type="text" maxlength="160" placeholder="e.g. Purba Medinipur, Kolkata, Howrah" required>
+              </div>
+            </div>
+          </section>
+          <section class="form-section">
+            <h2 class="section-title">2. Business Profile &amp; Qualification</h2>
+            <div class="grid">
+              <div class="field">
+                <span class="field-label">Current Profession / Business Background <span class="required">*</span></span>
+                <div id="professionOptions" class="options">
+                  <label class="option"><input type="checkbox" name="profession" value="Electrical/Technical Shop Owner"> Electrical / Technical Shop Owner</label>
+                  <label class="option"><input type="checkbox" name="profession" value="Certified Electrician"> Certified / Experienced Electrician</label>
+                  <label class="option"><input type="checkbox" name="profession" value="Solar/Renewable Energy Sector"> Solar / Renewable Energy Sector</label>
+                  <label class="option"><input type="checkbox" name="profession" value="Engineering/Technical"> Engineering / Technical Background</label>
+                  <label class="option"><input type="checkbox" name="profession" value="Entrepreneur/Business Owner"> Entrepreneur / Business Owner</label>
+                </div>
+              </div>
+              <div class="field">
+                <span class="field-label">Do you own a shop/office in a main market area? <span class="required">*</span></span>
+                <div class="options">
+                  <label class="option"><input type="radio" name="has_shop" value="Commercial Shop/Office Owned" required> Yes, commercial shop/office owned</label>
+                  <label class="option"><input type="radio" name="has_shop" value="Commercial Shop/Office Rented"> Yes, commercial shop/office rented</label>
+                  <label class="option"><input type="radio" name="has_shop" value="Operating Individually"> No, operating individually</label>
+                </div>
+                <label for="experience" style="margin-top:15px">Years of Relevant Experience <span class="required">*</span></label>
+                <select id="experience" name="experience" required>
+                  <option value="">Select experience</option>
+                  <option value="0-2">0 - 2 Years</option>
+                  <option value="3-5">3 - 5 Years</option>
+                  <option value="5+">5+ Years</option>
+                </select>
+              </div>
+            </div>
+          </section>
+          <section class="form-section">
+            <h2 class="section-title">3. Additional Information</h2>
+            <div class="field">
+              <label for="comments">Additional Comments / Business Query</label>
+              <textarea id="comments" name="comments" maxlength="2000" placeholder="Mention any specific queries or detailed business plan..."></textarea>
+            </div>
+          </section>
+          <div id="formNotice" class="notice hidden" role="status"></div>
+          <div class="actions"><button id="startPaymentBtn" class="btn" type="submit" disabled>Pay ₹299 &amp; Continue</button></div>
+          <p class="hint" style="text-align:center">Your application is submitted only after an administrator confirms receipt of the fee.</p>
+        </form>
+      </section>
+
+      <section id="paymentView" class="content hidden">
+        <div class="steps" aria-label="Application progress">
+          <span class="step done"><span class="step-number">✓</span> Application</span>
+          <span class="step-line"></span>
+          <span class="step active"><span class="step-number">2</span> Payment</span>
+          <span class="step-line"></span>
+          <span class="step"><span class="step-number">3</span> Submission</span>
+        </div>
+        <div class="fee-card">
+          <div><div class="fee-title">Channel Partner Application Fee</div><div class="fee-caption">One-time fee · Payable via UPI</div></div>
+          <div id="feeAmount" class="fee-amount">₹299</div>
+        </div>
+        <div class="pay-grid">
+          <div class="qr-wrap"><img id="paymentQr" alt="UPI payment QR code" width="155" height="155"></div>
+          <div>
+            <div class="upi-label">UPI (VPA)</div>
+            <div class="copy-row"><input id="vpaInput" type="text" readonly aria-label="UPI ID"><button id="copyVpaBtn" class="btn outline small" type="button">Copy</button></div>
+            <ul class="instructions">
+              <li>Scan the QR with any UPI app, or pay using the button below.</li>
+              <li>Pay the exact amount shown above.</li>
+              <li>Return here and enter the 12-digit reference from your UPI receipt.</li>
+            </ul>
+            <a id="upiPayLink" class="btn green block" href="#">Pay via UPI App</a>
+            <p class="hint">Your UPI app opens with the payment amount filled in.</p>
+          </div>
+        </div>
+        <div class="notice warning"><strong>Manual payment review:</strong> entering a UTR does not verify payment. An administrator must compare it with the recipient account and confirm the payment before your application can be submitted. Do not pay if you do not recognize or trust the payee.</div>
+        <form id="utrForm" class="utr-card">
+          <label for="utr">Enter the 12-digit UPI reference (UTR) from your payment receipt <span class="required">*</span></label>
+          <div class="utr-row">
+            <input id="utr" name="utr" type="text" inputmode="numeric" pattern="[0-9]{12}" minlength="12" maxlength="12" placeholder="e.g. 423456789012" required>
+            <button id="verifyUtrBtn" class="btn" type="submit">Submit UTR for Review</button>
+          </div>
+          <p class="hint">The application is not submitted while payment review is pending.</p>
+        </form>
+        <div id="paymentNotice" class="notice hidden" role="status"></div>
+        <div class="row-between" style="margin-top:14px">
+          <span class="hint">Paid but unsure, or payment failed?</span>
+          <button id="reportFailureBtn" class="btn outline small" type="button">Report payment issue</button>
+        </div>
+      </section>
+
+      <section id="successView" class="content hidden">
+        <div class="result-panel">
+          <div class="result-icon" aria-hidden="true">✓</div>
+          <h2>Application Submitted Successfully</h2>
+          <p>Your application has been submitted after payment was manually confirmed. Our representative will contact you soon.</p>
+        </div>
+        <div class="ref-card">
+          <div class="row-between"><div><div class="ref-label">Application Reference Number</div><div id="applicationReference" class="ref-number"></div></div><span class="badge good">Payment confirmed</span></div>
+          <div class="row-between" style="margin-top:15px;font-size:12px"><span>Applicant</span><strong id="receiptApplicant"></strong></div>
+          <div class="row-between" style="margin-top:6px;font-size:12px"><span>Payment reference</span><strong id="receiptUtr"></strong></div>
+        </div>
+        <div class="notice success"><strong>Wait until confirmed.</strong> Our retailer will call you soon.</div>
+        <div class="actions">
+          <a id="whatsappReceipt" class="btn green" target="_blank" rel="noopener noreferrer" href="#">Share reference on WhatsApp</a>
+          <a class="btn outline" href="./" data-home>Back to Home</a>
+        </div>
+        <p class="hint" style="text-align:center;margin-top:14px">Need help? Call <a href="tel:+917001699081">+91 70016 99081</a></p>
+      </section>
+
+      <section id="failedView" class="content hidden">
+        <div class="result-panel failed">
+          <div class="result-icon" aria-hidden="true">×</div>
+          <h2>Payment Could Not Be Completed</h2>
+          <p>Your application was not submitted. Your application details are retained with the payment session, so you can retry without filling the form again.</p>
+        </div>
+        <div class="ref-card">
+          <strong style="font-size:13px">Common reasons</strong>
+          <ul class="instructions" style="margin-bottom:0;color:#5f4f4f">
+            <li>The payment was cancelled in your UPI app before completion.</li>
+            <li>Your bank's UPI server was down or the request timed out.</li>
+            <li>The wrong UPI PIN was entered, or the daily limit was exceeded.</li>
+          </ul>
+        </div>
+        <div class="actions">
+          <button id="retryPaymentBtn" class="btn orange" type="button">Retry Payment</button>
+          <a id="failedWhatsapp" class="btn green" target="_blank" rel="noopener noreferrer" href="#">WhatsApp Support</a>
+        </div>
+        <p class="hint" style="text-align:center;margin-top:12px">Or call us: <a href="tel:+917001699081">+91 70016 99081</a></p>
+        <div id="failedNotice" class="notice error hidden" role="status"></div>
+      </section>
+
+      <section id="adminView" class="content hidden">
+        <div id="adminLogin" class="admin-login">
+          <h2 class="section-title">Administrator Sign In</h2>
+          <p class="hint">Payment and applicant details are restricted to authorized reviewers.</p>
+          <form id="adminLoginForm">
+            <label for="adminPin">Admin PIN</label>
+            <input id="adminPin" type="password" autocomplete="current-password" maxlength="128" required>
+            <div id="adminLoginNotice" class="notice error hidden" role="alert"></div>
+            <div class="actions"><button class="btn" type="submit">Sign In</button><a class="btn outline" href="./">Home</a></div>
+          </form>
+        </div>
+        <div id="adminPanel" class="hidden">
+          <div class="row-between"><div><h2 style="margin:0;font-size:20px">Payment Review</h2><p class="hint">Check your account statement before confirming any UTR.</p></div><button id="adminLogoutBtn" class="btn outline small" type="button">Sign Out</button></div>
+          <div id="adminNotice" class="notice hidden" role="status"></div>
+          <div class="admin-section">
+            <h2>Payments</h2>
+            <div id="paymentsTable" class="admin-table-wrap"></div>
+          </div>
+          <div class="admin-section">
+            <h2>Submitted Applications</h2>
+            <div id="applicationsTable" class="admin-table-wrap"></div>
+          </div>
+        </div>
+      </section>
+
+          <footer class="footer"><strong>Tata Power Solar Systems Limited</strong> · Official Channel Partner Onboarding Form<br>Applications are processed in coordination with West Bengal regional representatives. · <a href="?admin=1">Admin review</a></footer>
+    </article>
+  </main>
+  <div id="errorOverlay" class="error-overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="errorTitle">
+    <div class="error-modal">
+      <div id="errorTitle" class="error-title">Verification / Submission Failed</div>
+      <p id="errorMessage" class="error-desc"></p>
+      <button id="closeErrorBtn" type="button" class="btn red">Try Again</button>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+    const views = ["applicationView", "paymentView", "successView", "failedView", "adminView"];
+    const currentPaymentKey = "tps-current-payment-id";
+    const receiptKey = "tps-last-application-receipt";
+    const adminTokenKey = "tps-admin-session";
+    const API_BASE_URL = "https://registration-form-thqc.onrender.com/api";
+    let currentPayment = null;
+    let pollTimer = null;
+    let isSubmitting = false;
+    let generatedOtp = null;
+    let isVerified = false;
+    let verifiedWhatsApp = null;
+
+    async function api(path, options = {}) {
+      const headers = new Headers(options.headers || {});
+      if (options.body !== undefined) headers.set("Content-Type", "application/json");
+      if (options.admin) {
+        const token = sessionStorage.getItem(adminTokenKey);
+        if (token) headers.set("Authorization", `Bearer ${token}`);
+      }
+      let response;
+      try {
+        response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers, body: options.body === undefined ? undefined : JSON.stringify(options.body) });
+      } catch {
+        throw new Error("Cannot reach the application server. Check your connection and try again.");
+      }
+      const contentType = response.headers.get("content-type") || "";
+      const payload = contentType.includes("application/json") ? await response.json() : null;
+      if (!response.ok) {
+        if (response.status === 401 && options.admin) sessionStorage.removeItem(adminTokenKey);
+        const detail = payload && typeof payload.detail === "string" ? payload.detail : `Request failed (${response.status}).`;
+        throw new Error(detail);
+      }
+      return payload;
+    }
+
+    function showView(viewId, title, subtitle, badge, tone = "blue") {
+      views.forEach((id) => $(id).classList.toggle("hidden", id !== viewId));
+      document.body.classList.toggle("application-mode", viewId === "applicationView");
+      $("applicationHighlights").classList.toggle("hidden", viewId !== "applicationView");
+      $("pageTitle").textContent = title;
+      $("pageSubtitle").textContent = subtitle;
+      $("headerBadge").textContent = badge;
+      $("headerBadge").className = `badge${tone === "green" ? " good" : tone === "red" ? " bad" : ""}`;
+      $("topbar").className = `topbar${tone === "green" ? " green" : tone === "red" ? " red" : ""}`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function notice(element, message, kind = "warning") {
+      element.textContent = message;
+      element.className = `notice ${kind}`;
+    }
+
+    function toast(message) {
+      const node = $("toast");
+      node.textContent = message;
+      node.classList.remove("hidden");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => node.classList.add("hidden"), 2600);
+    }
+
+    function stopPolling() {
+      if (pollTimer !== null) window.clearInterval(pollTimer);
+      pollTimer = null;
+    }
+
+    function collectApplication() {
+      const form = $("applicationForm");
+      if (!form.reportValidity()) return null;
+      const professions = [...form.querySelectorAll('input[name="profession"]:checked')].map((input) => input.value);
+      if (!professions.length) {
+        notice($("formNotice"), "Select at least one profession or business background.", "error");
+        $("professionOptions").scrollIntoView({ behavior: "smooth", block: "center" });
+        return null;
+      }
+      const values = new FormData(form);
+      return {
+        full_name: String(values.get("full_name")).trim(),
+        phone: String(values.get("phone")).trim(),
+        whatsapp: String(values.get("whatsapp")).trim(),
+        email: String(values.get("email")).trim(),
+        district: String(values.get("district")).trim(),
+        professions,
+        has_shop: String(values.get("has_shop") || ""),
+        experience: String(values.get("experience") || ""),
+        comments: String(values.get("comments") || "").trim()
+      };
+    }
+
+    async function startPayment(event) {
+      event.preventDefault();
+      const application = collectApplication();
+      if (!application) return;
+      if (!isVerified || verifiedWhatsApp !== application.whatsapp) {
+        showErrorOverlay("Complete the WhatsApp code check before continuing. This demo check is not secure identity verification.");
+        return;
+      }
+      const button = $("startPaymentBtn");
+      button.disabled = true;
+      button.textContent = "Preparing payment…";
+      $("formNotice").classList.add("hidden");
+      try {
+        const payment = await api("/payments/initiate", {
+          method: "POST",
+          body: { application }
+        });
+        await openPayment(payment);
+      } catch (error) {
+        notice($("formNotice"), error.message, "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Pay ₹299 & Continue";
+      }
+    }
+
+    function initiateWhatsAppVerification() {
+      const phone = $("whatsapp").value.trim();
+      if (!/^\d{10}$/.test(phone)) {
+        showErrorOverlay("Please enter a valid 10-digit WhatsApp number.");
+        $("whatsapp").focus();
+        return;
+      }
+
+      isVerified = false;
+      verifiedWhatsApp = null;
+      $("verifiedBadge").classList.add("hidden");
+      $("startPaymentBtn").disabled = true;
+      generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const textMessage = encodeURIComponent(
+        `Tata Power Solar Application Verification Code: ${generatedOtp}\n\nPlease enter this code on the form to complete registration.`
+      );
+      window.open(`https://wa.me/91${phone}?text=${textMessage}`, "_blank");
+      $("otpBox").classList.remove("hidden");
+      $("sendOtpBtn").textContent = "Resend Code";
+      $("otpInput").value = "";
+      $("otpInput").focus();
+    }
+
+    function verifyOtp() {
+      const userOtp = $("otpInput").value.trim();
+      if (generatedOtp !== null && userOtp === generatedOtp) {
+        isVerified = true;
+        verifiedWhatsApp = $("whatsapp").value.trim();
+        $("otpBox").classList.add("hidden");
+        $("sendOtpBtn").classList.add("hidden");
+        $("whatsapp").readOnly = true;
+        $("verifiedBadge").classList.remove("hidden");
+        $("startPaymentBtn").disabled = false;
+        return;
+      }
+      showErrorOverlay("Invalid code entered. The demo code check failed.");
+    }
+
+    function resetWhatsAppVerification() {
+      if ($("whatsapp").readOnly) return;
+      generatedOtp = null;
+      isVerified = false;
+      verifiedWhatsApp = null;
+      $("otpInput").value = "";
+      $("otpBox").classList.add("hidden");
+      $("verifiedBadge").classList.add("hidden");
+      $("sendOtpBtn").classList.remove("hidden");
+      $("sendOtpBtn").textContent = "Send OTP";
+      $("startPaymentBtn").disabled = true;
+    }
+
+    function showErrorOverlay(message) {
+      $("errorMessage").textContent = message;
+      $("errorOverlay").classList.remove("hidden");
+    }
+
+    function closeErrorOverlay() {
+      $("errorOverlay").classList.add("hidden");
+      $("otpInput").value = "";
+      if (!$("otpBox").classList.contains("hidden")) $("otpInput").focus();
+    }
+
+    async function openPayment(payment) {
+      stopPolling();
+      currentPayment = payment;
+      sessionStorage.setItem(currentPaymentKey, payment.id);
+      const url = new URL(window.location.href);
+      url.searchParams.set("payment", payment.id);
+      history.replaceState(null, "", url);
+      $("feeAmount").textContent = new Intl.NumberFormat("en-IN", { style: "currency", currency: payment.currency || "INR", maximumFractionDigits: 0 }).format(payment.amount);
+      $("vpaInput").value = payment.upi_vpa;
+      $("paymentQr").src = `${API_BASE_URL}/payments/${encodeURIComponent(payment.id)}/qr.svg`;
+      $("upiPayLink").href = payment.upi_link;
+      $("utr").value = payment.utr || "";
+      const reviewPending = payment.status === "pending_review";
+      $("utrForm").classList.toggle("hidden", reviewPending || payment.status === "verified");
+      $("reportFailureBtn").classList.toggle("hidden", reviewPending || payment.status !== "pending");
+      $("paymentNotice").classList.toggle("hidden", !reviewPending);
+      if (reviewPending) {
+        notice($("paymentNotice"), "Your UTR is awaiting manual confirmation against the recipient account. Do not submit another payment. This is not yet a verified payment or submitted application.", "warning");
+      }
+      showView("paymentView", "Application Fee Payment", "Pay the ₹299 application fee via UPI. Payment is confirmed after manual review.", "UPI payment");
+      if (payment.status === "verified") {
+        await submitAfterPayment();
+      } else if (payment.status === "pending" || reviewPending) {
+        pollTimer = window.setInterval(refreshPayment, 8000);
+      } else if (payment.status === "failed") {
+        showFailed();
+      }
+    }
+
+    async function refreshPayment() {
+      if (!currentPayment || isSubmitting) return;
+      try {
+        const payment = await api(`/payments/${encodeURIComponent(currentPayment.id)}`);
+        currentPayment = payment;
+        if (payment.status === "verified") {
+          stopPolling();
+          await submitAfterPayment();
+        } else if (payment.status === "failed") {
+          stopPolling();
+          showFailed();
+        } else if (payment.status === "pending_review" && !$("utrForm").classList.contains("hidden")) {
+          $("utrForm").classList.add("hidden");
+          $("reportFailureBtn").classList.add("hidden");
+          notice($("paymentNotice"), "Your UTR is awaiting manual confirmation against the recipient account. Do not submit another payment. This is not yet a verified payment or submitted application.", "warning");
+        }
+      } catch (error) {
+        notice($("paymentNotice"), error.message, "error");
+      }
+    }
+
+    async function submitUtr(event) {
+      event.preventDefault();
+      if (!currentPayment) return;
+      const form = $("utrForm");
+      if (!form.reportValidity()) return;
+      const button = $("verifyUtrBtn");
+      button.disabled = true;
+      button.textContent = "Submitting…";
+      try {
+        const payment = await api(`/payments/${encodeURIComponent(currentPayment.id)}/verify`, {
+          method: "POST",
+          body: { utr: $("utr").value.trim() }
+        });
+        payment.applicant_name = payment.applicant_name || currentPayment.applicant_name;
+        await openPayment(payment);
+      } catch (error) {
+        notice($("paymentNotice"), error.message, "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Submit UTR for Review";
+      }
+    }
+
+    async function submitAfterPayment() {
+      if (!currentPayment || isSubmitting) return;
+      isSubmitting = true;
+      try {
+        const receipt = await api("/applications", { method: "POST", body: { payment_id: currentPayment.id } });
+        receipt.applicant_name = currentPayment.applicant_name;
+        receipt.payment_utr = currentPayment.utr;
+        stopPolling();
+        renderSuccess(receipt);
+      } catch (error) {
+        if (error.message.includes("only after") || error.message.includes("only when")) {
+          notice($("paymentNotice"), error.message, "warning");
+          return;
+        }
+        notice($("paymentNotice"), `Payment is confirmed, but application submission did not complete: ${error.message} Please retry; do not pay again.`, "error");
+      } finally {
+        isSubmitting = false;
+      }
+    }
+
+    function renderSuccess(receipt) {
+      $("applicationReference").textContent = receipt.reference_no;
+      $("receiptApplicant").textContent = receipt.applicant_name || "Channel Partner applicant";
+      $("receiptUtr").textContent = receipt.payment_utr || "Confirmed by administrator";
+      const message = encodeURIComponent(`Hello, my Tata Power Solar Channel Partner application ${receipt.reference_no} has been submitted. Please contact me with an update.`);
+      $("whatsappReceipt").href = `https://wa.me/917001699081?text=${message}`;
+      sessionStorage.setItem(receiptKey, JSON.stringify(receipt));
+      sessionStorage.removeItem(currentPaymentKey);
+      history.replaceState(null, "", window.location.pathname);
+      showView("successView", "Application Submitted Successfully", "Payment confirmed and application received.", "Payment successful", "green");
+    }
+
+    function supportLink() {
+      const text = encodeURIComponent("Hello, I need help with my Channel Partner application payment.");
+      $("failedWhatsapp").href = `https://wa.me/917001699081?text=${text}`;
+    }
+
+    function showFailed(message) {
+      stopPolling();
+      if (message) notice($("failedNotice"), message, "error");
+      supportLink();
+      showView("failedView", "Payment Could Not Be Completed", "Your application was not submitted. You can retry the payment.", "Payment failed", "red");
+    }
+
+    async function reportFailure() {
+      if (!currentPayment) return;
+      const button = $("reportFailureBtn");
+      button.disabled = true;
+      try {
+        const payment = await api(`/payments/${encodeURIComponent(currentPayment.id)}/fail`, { method: "POST" });
+        currentPayment = payment;
+        if (payment.status === "failed") showFailed();
+        else notice($("paymentNotice"), "This payment is not marked failed. If you paid, submit your UTR for review or contact support.", "warning");
+      } catch (error) {
+        notice($("paymentNotice"), error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    async function retryPayment() {
+      if (!currentPayment) return;
+      const button = $("retryPaymentBtn");
+      button.disabled = true;
+      try {
+        const payment = await api(`/payments/${encodeURIComponent(currentPayment.id)}/retry`, { method: "POST" });
+        await openPayment(payment);
+      } catch (error) {
+        notice($("failedNotice"), error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    async function restorePayment() {
+      const paymentId = new URLSearchParams(location.search).get("payment") || sessionStorage.getItem(currentPaymentKey);
+      if (!paymentId) return false;
+      try {
+        const payment = await api(`/payments/${encodeURIComponent(paymentId)}`);
+        await openPayment(payment);
+        return true;
+      } catch (error) {
+        sessionStorage.removeItem(currentPaymentKey);
+        const url = new URL(location.href);
+        url.searchParams.delete("payment");
+        history.replaceState(null, "", url);
+        notice($("formNotice"), `Could not restore the saved payment: ${error.message}`, "error");
+        return false;
+      }
+    }
+
+    async function copyVpa() {
+      try {
+        await navigator.clipboard.writeText($("vpaInput").value);
+        toast("UPI ID copied.");
+      } catch {
+        $("vpaInput").select();
+        const copied = document.execCommand("copy");
+        toast(copied ? "UPI ID copied." : "Copy failed; select and copy the UPI ID.");
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+
+    function formatDate(value) {
+      if (!value) return "—";
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString("en-IN");
+    }
+
+    async function adminLogin(event) {
+      event.preventDefault();
+      const submit = $("adminLoginForm").querySelector('button[type="submit"]');
+      submit.disabled = true;
+      $("adminLoginNotice").classList.add("hidden");
+      try {
+        const result = await api("/admin/login", { method: "POST", body: { pin: $("adminPin").value } });
+        sessionStorage.setItem(adminTokenKey, result.token);
+        $("adminPin").value = "";
+        await loadAdmin();
+      } catch (error) {
+        notice($("adminLoginNotice"), error.message, "error");
+      } finally {
+        submit.disabled = false;
+      }
+    }
+
+    async function loadAdmin() {
+      try {
+        const [payments, applications] = await Promise.all([
+          api("/admin/payments", { admin: true }),
+          api("/admin/applications", { admin: true })
+        ]);
+        $("adminLogin").classList.add("hidden");
+        $("adminPanel").classList.remove("hidden");
+        renderPayments(payments);
+        renderApplications(applications);
+      } catch (error) {
+        $("adminPanel").classList.add("hidden");
+        $("adminLogin").classList.remove("hidden");
+        sessionStorage.removeItem(adminTokenKey);
+        notice($("adminLoginNotice"), error.message, "error");
+      }
+    }
+
+    function renderPayments(payments) {
+      if (!payments.length) {
+        $("paymentsTable").innerHTML = '<p class="notice">No payment sessions yet.</p>';
+        return;
+      }
+      const rows = payments.map((payment) => {
+        const applicant = payment.applicant_name
+          ? `${escapeHtml(payment.applicant_name)}<br><span class="hint">${escapeHtml(payment.applicant_phone)}</span>`
+          : "—";
+        const actions = payment.status === "pending_review"
+          ? `<div class="admin-actions"><button class="btn green small" data-action="confirm" data-id="${escapeHtml(payment.id)}">Confirm received</button><button class="btn red small" data-action="reject" data-id="${escapeHtml(payment.id)}">Reject</button></div>`
+          : escapeHtml(payment.status);
+        return `<tr><td>${applicant}</td><td>${escapeHtml(payment.utr || "—")}</td><td>${escapeHtml(payment.amount)} ${escapeHtml(payment.currency)}</td><td>${escapeHtml(payment.status)}</td><td>${escapeHtml(formatDate(payment.created_at))}</td><td>${actions}</td></tr>`;
+      }).join("");
+      $("paymentsTable").innerHTML = `<table class="admin-table"><thead><tr><th>Applicant</th><th>UTR</th><th>Amount</th><th>Status</th><th>Created</th><th>Review</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function renderApplications(applications) {
+      if (!applications.length) {
+        $("applicationsTable").innerHTML = '<p class="notice">No applications have been submitted.</p>';
+        return;
+      }
+      const rows = applications.map((application) => `<tr><td>${escapeHtml(application.reference_no)}</td><td>${escapeHtml(application.full_name)}</td><td>${escapeHtml(application.phone)}</td><td>${escapeHtml(application.email)}</td><td>${escapeHtml(application.district)}</td><td>${escapeHtml(formatDate(application.created_at))}</td></tr>`).join("");
+      $("applicationsTable").innerHTML = `<table class="admin-table"><thead><tr><th>Reference</th><th>Applicant</th><th>Phone</th><th>Email</th><th>District</th><th>Submitted</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    async function adminAction(action, paymentId) {
+      const confirmText = action === "confirm"
+        ? "Confirm only after checking your bank/UPI account statement and matching this UTR and amount. Mark payment as received?"
+        : "Reject this payment reference? Use this only after checking the account statement.";
+      if (!window.confirm(confirmText)) return;
+      try {
+        await api(`/admin/payments/${encodeURIComponent(paymentId)}/${action}`, { method: "POST", admin: true });
+        notice($("adminNotice"), action === "confirm" ? "Payment confirmed. The applicant can now submit their application." : "Payment reference rejected. The applicant may retry.", "success");
+        await loadAdmin();
+      } catch (error) {
+        notice($("adminNotice"), error.message, "error");
+      }
+    }
+
+    async function initialize() {
+      $("applicationForm").addEventListener("submit", startPayment);
+      $("sendOtpBtn").addEventListener("click", initiateWhatsAppVerification);
+      $("verifyOtpBtn").addEventListener("click", verifyOtp);
+      $("whatsapp").addEventListener("input", resetWhatsAppVerification);
+      $("closeErrorBtn").addEventListener("click", closeErrorOverlay);
+      $("utrForm").addEventListener("submit", submitUtr);
+      $("copyVpaBtn").addEventListener("click", copyVpa);
+      $("reportFailureBtn").addEventListener("click", reportFailure);
+      $("retryPaymentBtn").addEventListener("click", retryPayment);
+      $("adminLoginForm").addEventListener("submit", adminLogin);
+      $("adminLogoutBtn").addEventListener("click", () => {
+        sessionStorage.removeItem(adminTokenKey);
+        $("adminPanel").classList.add("hidden");
+        $("adminLogin").classList.remove("hidden");
+        showView("applicationView", "Channel Partner Registration Form", "West Bengal Network Expansion Drive | Government Registered Franchise Program", "Official Application");
+      });
+      $("paymentsTable").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (button) adminAction(button.dataset.action, button.dataset.id);
+      });
+      document.querySelector("#successView a[data-home]").addEventListener("click", () => {
+        sessionStorage.removeItem(receiptKey);
+      });
+      const query = new URLSearchParams(location.search);
+      if (location.pathname === "/admin" || location.hash === "#admin" || query.has("admin")) {
+        showView("adminView", "Admin Payment Review", "Review applicant payment references and applications.", "Restricted access");
+        const token = sessionStorage.getItem(adminTokenKey);
+        if (token) await loadAdmin();
+        return;
+      }
+      if (query.has("new")) {
+        sessionStorage.removeItem(receiptKey);
+        sessionStorage.removeItem(currentPaymentKey);
+        query.delete("new");
+        const cleanUrl = new URL(location.href);
+        cleanUrl.searchParams.delete("new");
+        history.replaceState(null, "", cleanUrl);
+      } else if (!query.has("payment")) {
+        try {
+          const savedReceipt = JSON.parse(sessionStorage.getItem(receiptKey) || "null");
+          if (savedReceipt?.reference_no) {
+            renderSuccess(savedReceipt);
+            return;
+          }
+        } catch {
+          sessionStorage.removeItem(receiptKey);
+        }
+      }
+      if (!(await restorePayment())) {
+        showView("applicationView", "Channel Partner Registration Form", "West Bengal Network Expansion Drive | Government Registered Franchise Program", "Official Application");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", initialize);
+  </script>
+</body>
+</html>
