@@ -1,8 +1,9 @@
 """FastAPI application for the Channel Partner UPI application flow."""
 
 import os
+import sys
 from pathlib import Path
-
+sys.path.append(str(Path(__file__).resolve().parent))
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
