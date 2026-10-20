@@ -10,19 +10,19 @@
   <style>
     :root {
       color-scheme: light;
-      --blue: #07528f;
-      --blue-dark: #063b67;
+      --blue: #236DB2;
+      --blue-dark: #ed7900;
       --green: #168448;
       --green-pale: #effaf4;
       --orange: #ed7900;
       --red: #bd2b20;
       --red-pale: #fff3f3;
-      --ink: #182230;
+      --ink: #233247;
       --muted: #657384;
       --line: #e3e9ef;
       --surface: #fff;
       --canvas: #f4f7fa;
-      --shadow: 0 18px 54px rgba(20, 40, 60, .10);
+      --shadow: 0 18px 54px #003bed0d;
     }
     * { box-sizing: border-box; }
     body {
@@ -49,8 +49,10 @@
     .topbar.red { background: var(--red); }
     .header { padding: 25px 28px 21px; border-bottom: 1px solid var(--line); }
     .brand-row, .title-row, .row-between { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .brand { display: flex; align-items: center; gap: 9px; color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .04em; }
-    .brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 8px; background: #eaf3fb; color: var(--blue); font-size: 12px; }
+    .brand { display: flex; align-items: center; }
+    .brand-logo { display: block; width: 166px; max-width: 48vw; height: auto; }
+    .otp-controls { display: grid; gap: 8px; margin-top: 9px; }
+    .otp-controls > .btn { justify-self: start; white-space: nowrap; }
     .badge { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #cbdff1; border-radius: 999px; padding: 5px 11px; background: #f3f8fc; color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
     .badge.good { border-color: #cdebd7; background: #f1fbf4; color: var(--green); }
     .badge.bad { border-color: #f0cbcb; background: var(--red-pale); color: var(--red); }
@@ -163,7 +165,7 @@
     .ref-label { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
     .ref-number { margin-top: 3px; color: var(--blue); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 21px; font-weight: 850; letter-spacing: .04em; }
     .footer { padding: 15px 24px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 1.65; text-align: center; }
-    .footer strong { color: #445163; }
+    .footer strong { color: #004ebac3; }
     .hidden { display: none !important; }
     .admin-login { max-width: 390px; margin: 10px auto; }
     .admin-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 9px; }
@@ -202,7 +204,7 @@
       <div id="topbar" class="topbar"></div>
       <header class="header">
         <div class="brand-row">
-          <div class="brand"><span class="brand-mark" aria-hidden="true">TPS</span><span>TATA POWER SOLAR<br><small style="font-weight:600;color:#748496">CHANNEL PARTNER NETWORK</small></span></div>
+          <div class="brand"><img class="brand-logo" src="tata-power-logo.svg" alt="Tata Power Solar"></div>
           <span id="headerBadge" class="badge">Channel partner application</span>
         </div>
         <h1 id="pageTitle">Channel Partner Registration Form</h1>
@@ -237,7 +239,14 @@
               <div class="field">
                 <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
                 <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit WhatsApp number" required>
-                <p class="hint">OTP delivery is not configured in this deployment. This number is collected for application contact only.</p>
+                <div class="otp-controls">
+                  <button id="sendOtpBtn" class="btn green" type="button">Send OTP</button>
+                  <div class="copy-row">
+                    <input id="whatsappOtp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit OTP" autocomplete="one-time-code" aria-label="WhatsApp verification code" disabled>
+                    <button id="verifyOtpBtn" class="btn outline hidden" type="button" disabled>Verify OTP</button>
+                  </div>
+                </div>
+                <p id="whatsappOtpStatus" class="hint" role="status">Verify your WhatsApp number to continue to payment.</p>
               </div>
               <div class="field">
                 <label for="email">Email Address <span class="required">*</span></label>
@@ -417,6 +426,7 @@
     let currentPayment = null;
     let pollTimer = null;
     let isSubmitting = false;
+    let whatsappVerificationId = null;
 
     async function api(path, options = {}) {
       const headers = new Headers(options.headers || {});
@@ -497,18 +507,97 @@
       event.preventDefault();
       const application = collectApplication();
       if (!application) return;
+      if (!whatsappVerificationId) {
+        notice($("formNotice"), "Verify your WhatsApp number before continuing to payment.", "error");
+        $("whatsapp").focus();
+        return;
+      }
       const button = $("startPaymentBtn");
       button.disabled = true;
       button.textContent = "Preparing payment…";
       $("formNotice").classList.add("hidden");
       try {
-        const payment = await api("/payments/initiate", { method: "POST", body: { application } });
+        const payment = await api("/payments/initiate", {
+          method: "POST",
+          body: { application, whatsapp_verification_id: whatsappVerificationId }
+        });
         await openPayment(payment);
+        whatsappVerificationId = null;
       } catch (error) {
         notice($("formNotice"), error.message, "error");
       } finally {
         button.disabled = false;
-        button.textContent = "Pay ₹299 & Continue";
+        button.textContent = "Pay ₹299 & SUBMIT APPLICATION";
+      }
+    }
+
+    function clearWhatsAppVerification() {
+      whatsappVerificationId = null;
+      $("whatsappOtp").value = "";
+      $("whatsappOtp").disabled = true;
+      $("verifyOtpBtn").disabled = true;
+      $("verifyOtpBtn").classList.add("hidden");
+      $("sendOtpBtn").disabled = false;
+      $("sendOtpBtn").textContent = "Send OTP";
+      $("whatsappOtpStatus").textContent = "Verify your WhatsApp number to continue to payment.";
+      $("whatsappOtpStatus").classList.remove("notice", "error", "success");
+    }
+
+    async function sendWhatsAppOtp() {
+      const phone = $("whatsapp").value.trim();
+      if (!/^\d{10}$/.test(phone)) {
+        notice($("formNotice"), "Enter a valid 10-digit WhatsApp number first.", "error");
+        $("whatsapp").focus();
+        return;
+      }
+      const button = $("sendOtpBtn");
+      button.disabled = true;
+      button.textContent = "Sending…";
+      try {
+        const result = await api("/whatsapp-otp/send", { method: "POST", body: { phone } });
+        if ($("whatsapp").value.trim() !== phone) {
+          throw new Error("The WhatsApp number changed. Send a new OTP to verify the updated number.");
+        }
+        $("whatsappOtp").disabled = false;
+        $("verifyOtpBtn").disabled = false;
+        $("verifyOtpBtn").classList.remove("hidden");
+        $("whatsappOtpStatus").textContent = result.message;
+        $("whatsappOtp").focus();
+      } catch (error) {
+        notice($("formNotice"), error.message, "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Resend OTP";
+      }
+    }
+
+    async function verifyWhatsAppOtp() {
+      const phone = $("whatsapp").value.trim();
+      const code = $("whatsappOtp").value.trim();
+      if (!/^\d{10}$/.test(phone) || !/^\d{6}$/.test(code)) {
+        notice($("formNotice"), "Enter your 10-digit WhatsApp number and the 6-digit OTP.", "error");
+        return;
+      }
+      const button = $("verifyOtpBtn");
+      button.disabled = true;
+      button.textContent = "Verifying…";
+      try {
+        const result = await api("/whatsapp-otp/verify", { method: "POST", body: { phone, code } });
+        if ($("whatsapp").value.trim() !== phone) {
+          throw new Error("The WhatsApp number changed. Request a new OTP for the updated number.");
+        }
+        whatsappVerificationId = result.verification_id;
+        $("whatsapp").readOnly = true;
+        $("whatsappOtp").disabled = true;
+        $("sendOtpBtn").classList.add("hidden");
+        button.classList.add("hidden");
+        $("whatsappOtpStatus").textContent = "WhatsApp number verified.";
+        $("whatsappOtpStatus").classList.add("notice", "success");
+        $("formNotice").classList.add("hidden");
+      } catch (error) {
+        notice($("formNotice"), error.message, "error");
+        button.disabled = false;
+        button.textContent = "Verify OTP";
       }
     }
 
@@ -776,6 +865,9 @@
 
     async function initialize() {
       $("applicationForm").addEventListener("submit", startPayment);
+      $("sendOtpBtn").addEventListener("click", sendWhatsAppOtp);
+      $("verifyOtpBtn").addEventListener("click", verifyWhatsAppOtp);
+      $("whatsapp").addEventListener("input", clearWhatsAppVerification);
       $("utrForm").addEventListener("submit", submitUtr);
       $("copyVpaBtn").addEventListener("click", copyVpa);
       $("reportFailureBtn").addEventListener("click", reportFailure);
