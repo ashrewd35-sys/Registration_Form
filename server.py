@@ -2,8 +2,14 @@
 
 import os
 import sys
+from contextlib import asynccontextmanager
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent))
+
+# Fix python import paths dynamically for Render runtime
+BASE_DIR = Path(__file__).resolve().parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,14 +20,29 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Load environment variables
-load_dotenv(Path(__file__).parent / ".env")
+load_dotenv(BASE_DIR / ".env")
 
 from lib.db import close_db, get_session, init_db  # noqa: E402
 from routers.admin import router as admin_router  # noqa: E402
 from routers.applications import router as applications_router  # noqa: E402
 from routers.payments import router as payments_router  # noqa: E402
 
-app = FastAPI(title="Channel Partner Application", version="1.0.0")
+
+# --- Lifespan Context Manager (Modern FastAPI Startup/Shutdown) ---
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup tasks
+    await init_db()
+    yield
+    # Shutdown tasks
+    await close_db()
+
+
+app = FastAPI(
+    title="Channel Partner Application",
+    version="1.0.0",
+    lifespan=lifespan,
+)
 
 # --- CORS Configuration ---
 origins_env = os.getenv("CORS_ORIGINS", "")
@@ -62,7 +83,7 @@ async def health(session: AsyncSession = Depends(get_session)) -> dict[str, str]
 
 
 # --- Static Frontend Serving (Optional) ---
-frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+frontend_dir = BASE_DIR.parent / "frontend"
 
 if frontend_dir.exists():
     @app.get("/admin", include_in_schema=False)
@@ -73,14 +94,3 @@ if frontend_dir.exists():
         raise HTTPException(status_code=404, detail="Admin page index.html not found.")
 
     app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
-
-
-# --- Startup & Shutdown Events ---
-@app.on_event("startup")
-async def startup() -> None:
-    await init_db()
-
-
-@app.on_event("shutdown")
-async def shutdown() -> None:
-    await close_db()
