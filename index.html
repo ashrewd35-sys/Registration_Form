@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07528f">
   <meta name="description" content="Channel Partner application and UPI application-fee payment.">
-  <meta name="api-base" content="">
+  <meta name="api-base" content="https://registration-form-l8o4.onrender.com">
   <title>Tata Power Solar — Channel Partner Application</title>
   <style>
     :root {
@@ -178,6 +178,44 @@
     .admin-section h2 { font-size: 15px; }
     .toast { position: fixed; right: 18px; bottom: 18px; z-index: 10; max-width: min(420px, calc(100vw - 36px)); padding: 12px 16px; border-radius: 9px; background: #182230; color: white; box-shadow: var(--shadow); font-size: 12px; }
     .loading { opacity: .65; pointer-events: none; }
+    body.application-mode { --blue: #095397; --blue-dark: #1467b4; }
+    body.application-mode { padding: 20px; }
+    body.application-mode .shell { width: min(100%, 750px); }
+    body.application-mode .card { border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,.08); }
+    body.application-mode .topbar { display: none; }
+    body.application-mode .header { padding: 24px; border-top: 6px solid var(--blue); }
+    body.application-mode .brand-logo { width: 166px; height: 40px; object-fit: contain; object-position: left center; }
+    body.application-mode #headerBadge { padding: 6px 14px; background: #eef6ff; border-color: #bce0fd; color: var(--blue); font-size: 11px; letter-spacing: .5px; }
+    body.application-mode h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: 0; }
+    body.application-mode .subtitle { margin-bottom: 16px; font-size: 13px; }
+    body.application-mode .highlight-banner { margin-top: 0; padding: 14px; border-radius: 8px; background: linear-gradient(135deg, #095397, #1467b4); }
+    body.application-mode .highlight-value { color: #ffc107; font-size: 18px; }
+    body.application-mode .highlight-label { color: #e2e8f0; font-size: 11px; letter-spacing: 0; }
+    body.application-mode .content { padding: 0; }
+    body.application-mode .steps { display: none; }
+    body.application-mode .form-section { padding: 20px 24px; border-top: 0; border-bottom: 1px solid #e2e8f0; }
+    body.application-mode .form-section:first-of-type { padding-top: 20px; }
+    body.application-mode .section-title { margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid #f8fafc; color: var(--blue); font-size: 14px; letter-spacing: .5px; }
+    body.application-mode label, body.application-mode .field-label { margin-bottom: 6px; color: #475569; font-size: 13px; }
+    body.application-mode input[type="text"], body.application-mode input[type="tel"], body.application-mode input[type="email"], body.application-mode select, body.application-mode textarea { min-height: 0; padding: 10px; border-color: #cbd5e1; border-radius: 6px; background: #f8fafc; font-size: 13px; }
+    body.application-mode input:focus, body.application-mode select:focus, body.application-mode textarea:focus { border-color: var(--blue); box-shadow: none; }
+    body.application-mode .options { gap: 8px; margin-top: 4px; }
+    body.application-mode .option { align-items: center; gap: 8px; color: #0f172a; font-size: 13px; }
+    body.application-mode .option input { margin: 0; }
+    body.application-mode .required { color: #2878e1; }
+    body.application-mode .otp-row { display: flex; gap: 8px; }
+    body.application-mode .btn-verify { flex: 0 0 auto; padding: 0 14px; border: 0; border-radius: 6px; background: #25d366; color: white; font-size: 12px; font-weight: 700; cursor: pointer; }
+    body.application-mode .btn-verify:hover:not(:disabled) { background: #1eb954; }
+    body.application-mode .btn-verify:disabled { opacity: .55; cursor: not-allowed; }
+    body.application-mode .verified-badge { display: flex; align-items: center; gap: 4px; margin-top: 6px; color: #16a34a; font-size: 12px; font-weight: 700; }
+    body.application-mode .otp-box { margin-top: 10px; padding: 12px; border: 1px dashed #25d366; border-radius: 6px; background: #f0fdf4; }
+    body.application-mode .otp-box p { margin: 0 0 8px; color: #166534; font-size: 12px; }
+    body.application-mode .otp-input-group { display: flex; gap: 8px; }
+    body.application-mode .btn-otp-submit { flex: 0 0 auto; padding: 0 16px; border: 0; border-radius: 6px; background: var(--blue); color: white; font-size: 12px; font-weight: 700; cursor: pointer; }
+    body.application-mode .btn-otp-submit:disabled { opacity: .55; cursor: not-allowed; }
+    body.application-mode #startPaymentBtn { background: #ed7900; color: #fff; font-size: 15px; letter-spacing: .8px; text-transform: uppercase; }
+    body.application-mode #startPaymentBtn:hover:not(:disabled) { background: #e06d00; }
+    body.application-mode .footer { padding: 0 24px 20px; border-top: 0; }
     @media (max-width: 600px) {
       body { padding: 13px 10px; }
       .header { padding: 20px 18px 17px; }
@@ -194,6 +232,13 @@
       .step { gap: 4px; }
       .step-number { width: 20px; height: 20px; }
       .fee-amount { font-size: 22px; }
+      body.application-mode { padding: 13px 10px; }
+      body.application-mode .header { padding: 20px 18px; }
+      body.application-mode .form-section { padding: 20px 18px; }
+      body.application-mode .footer { padding: 0 18px 20px; }
+      body.application-mode .otp-row { flex-wrap: wrap; }
+      body.application-mode .otp-row .btn-verify { min-height: 40px; }
+      body.application-mode .otp-input-group { flex-wrap: wrap; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
@@ -205,10 +250,10 @@
       <header class="header">
         <div class="brand-row">
           <div class="brand"><img class="brand-logo" src="tata-power-logo.svg" alt="Tata Power Solar"></div>
-          <span id="headerBadge" class="badge">Channel partner application</span>
+          <span id="headerBadge" class="badge">Official Application</span>
         </div>
         <h1 id="pageTitle">Channel Partner Registration Form</h1>
-        <p id="pageSubtitle" class="subtitle">West Bengal Network Expansion Drive | Channel Partner Application</p>
+        <p id="pageSubtitle" class="subtitle">West Bengal Network Expansion Drive | Government Registered Franchise Program</p>
         <div id="applicationHighlights" class="highlight-banner">
           <div class="highlight-item"><div class="highlight-value">0%</div><div class="highlight-label">Down Payment</div></div>
           <div class="highlight-item"><div class="highlight-value">Up to 20%</div><div class="highlight-label">Profit Margin</div></div>
@@ -238,12 +283,16 @@
               </div>
               <div class="field">
                 <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
-                <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit WhatsApp number" required>
-                <div class="otp-controls">
-                  <button id="sendOtpBtn" class="btn green" type="button">Send OTP</button>
-                  <div class="copy-row">
-                    <input id="whatsappOtp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit OTP" autocomplete="one-time-code" aria-label="WhatsApp verification code" disabled>
-                    <button id="verifyOtpBtn" class="btn outline hidden" type="button" disabled>Verify OTP</button>
+                <div class="otp-row">
+                  <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="Enter WhatsApp number" required>
+                  <button id="sendOtpBtn" class="btn-verify" type="button">Send OTP</button>
+                </div>
+                <div id="verifiedBadge" class="verified-badge hidden">✓ WhatsApp Number Verified</div>
+                <div id="otpBox" class="otp-box hidden">
+                  <p>Enter the 6-digit verification code sent to your WhatsApp:</p>
+                  <div class="otp-input-group">
+                    <input id="whatsappOtp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="ENTER OTP" autocomplete="one-time-code" aria-label="WhatsApp verification code" disabled>
+                    <button id="verifyOtpBtn" class="btn-otp-submit hidden" type="button" disabled>Verify</button>
                   </div>
                 </div>
                 <p id="whatsappOtpStatus" class="hint" role="status">Verify your WhatsApp number to continue to payment.</p>
@@ -409,7 +458,7 @@
         </div>
       </section>
 
-          <footer class="footer"><strong>Tata Power Solar Systems Limited</strong> · Channel Partner Onboarding Form<br>Applications are processed in coordination with West Bengal regional representatives. · <a href="?admin=1">Admin review</a></footer>
+          <footer class="footer"><strong>Tata Power Solar Systems Limited</strong> · Official Channel Partner Onboarding Form<br>Applications are processed in coordination with West Bengal regional representatives. · <a href="?admin=1">Admin review</a></footer>
     </article>
   </main>
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
@@ -453,6 +502,7 @@
 
     function showView(viewId, title, subtitle, badge, tone = "blue") {
       views.forEach((id) => $(id).classList.toggle("hidden", id !== viewId));
+      document.body.classList.toggle("application-mode", viewId === "applicationView");
       $("applicationHighlights").classList.toggle("hidden", viewId !== "applicationView");
       $("pageTitle").textContent = title;
       $("pageSubtitle").textContent = subtitle;
@@ -527,20 +577,22 @@
         notice($("formNotice"), error.message, "error");
       } finally {
         button.disabled = false;
-        button.textContent = "Pay ₹299 & SUBMIT APPLICATION";
+        button.textContent = "Pay ₹299 & Continue";
       }
     }
 
     function clearWhatsAppVerification() {
       whatsappVerificationId = null;
+      $("whatsapp").readOnly = false;
       $("whatsappOtp").value = "";
       $("whatsappOtp").disabled = true;
       $("verifyOtpBtn").disabled = true;
       $("verifyOtpBtn").classList.add("hidden");
+      $("otpBox").classList.add("hidden");
+      $("verifiedBadge").classList.add("hidden");
       $("sendOtpBtn").disabled = false;
       $("sendOtpBtn").textContent = "Send OTP";
       $("whatsappOtpStatus").textContent = "Verify your WhatsApp number to continue to payment.";
-      $("whatsappOtpStatus").classList.remove("notice", "error", "success");
     }
 
     async function sendWhatsAppOtp() {
@@ -561,7 +613,9 @@
         $("whatsappOtp").disabled = false;
         $("verifyOtpBtn").disabled = false;
         $("verifyOtpBtn").classList.remove("hidden");
+        $("otpBox").classList.remove("hidden");
         $("whatsappOtpStatus").textContent = result.message;
+        $("sendOtpBtn").textContent = "Resend Code";
         $("whatsappOtp").focus();
       } catch (error) {
         notice($("formNotice"), error.message, "error");
@@ -589,10 +643,11 @@
         whatsappVerificationId = result.verification_id;
         $("whatsapp").readOnly = true;
         $("whatsappOtp").disabled = true;
-        $("sendOtpBtn").classList.add("hidden");
+        $("otpBox").classList.add("hidden");
         button.classList.add("hidden");
+        $("verifiedBadge").classList.remove("hidden");
+        $("sendOtpBtn").classList.add("hidden");
         $("whatsappOtpStatus").textContent = "WhatsApp number verified.";
-        $("whatsappOtpStatus").classList.add("notice", "success");
         $("formNotice").classList.add("hidden");
       } catch (error) {
         notice($("formNotice"), error.message, "error");
@@ -877,7 +932,7 @@
         sessionStorage.removeItem(adminTokenKey);
         $("adminPanel").classList.add("hidden");
         $("adminLogin").classList.remove("hidden");
-        showView("applicationView", "Channel Partner Registration Form", "West Bengal Network Expansion Drive | Channel Partner Application", "Channel partner application");
+        showView("applicationView", "Channel Partner Registration Form", "West Bengal Network Expansion Drive | Government Registered Franchise Program", "Official Application");
       });
       $("paymentsTable").addEventListener("click", (event) => {
         const button = event.target.closest("button[data-action]");
@@ -912,7 +967,7 @@
         }
       }
       if (!(await restorePayment())) {
-        showView("applicationView", "Channel Partner Registration Form", "West Bengal Network Expansion Drive | Channel Partner Application", "Channel partner application");
+        showView("applicationView", "Channel Partner Registration Form", "West Bengal Network Expansion Drive | Government Registered Franchise Program", "Official Application");
       }
     }
 
