@@ -5,10 +5,13 @@ import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-# Fix python import paths dynamically for Render runtime
+# --- Dynamic Path Resolution for Render / Linux Environment ---
 BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
+
+# Ensure Current Working Directory is set to project root
+os.chdir(BASE_DIR)
 
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
@@ -22,20 +25,41 @@ from sqlalchemy.ext.asyncio import AsyncSession
 # Load environment variables
 load_dotenv(BASE_DIR / ".env")
 
-from lib.db import close_db, get_session, init_db  # noqa: E402
-from routers.admin import router as admin_router  # noqa: E402
-from routers.applications import router as applications_router  # noqa: E402
-from routers.payments import router as payments_router  # noqa: E402
+# --- Robust Imports with Fallback Handling ---
+try:
+    from lib.db import close_db, get_session, init_db
+except ModuleNotFoundError:
+    try:
+        from .lib.db import close_db, get_session, init_db
+    except ImportError:
+        import importlib
+        lib_db = importlib.import_module("lib.db")
+        close_db, get_session, init_db = lib_db.close_db, lib_db.get_session, lib_db.init_db
+
+try:
+    from routers.admin import router as admin_router
+    from routers.applications import router as applications_router
+    from routers.payments import router as payments_router
+except ModuleNotFoundError:
+    from .routers.admin import router as admin_router
+    from .routers.applications import router as applications_router
+    from .routers.payments import router as payments_router
 
 
 # --- Lifespan Context Manager (Modern FastAPI Startup/Shutdown) ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup tasks
-    await init_db()
+    # Startup tasks: Initialize PostgreSQL tables & pool
+    try:
+        await init_db()
+    except Exception as err:
+        print(f"[Warning] Database initialization error during startup: {err}")
     yield
-    # Shutdown tasks
-    await close_db()
+    # Shutdown tasks: Clean up connections
+    try:
+        await close_db()
+    except Exception as err:
+        print(f"[Warning] Error closing database connections: {err}")
 
 
 app = FastAPI(
