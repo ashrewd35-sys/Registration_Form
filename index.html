@@ -51,8 +51,6 @@
     .brand-row, .title-row, .row-between { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .brand { display: flex; align-items: center; }
     .brand-logo { display: block; width: 166px; max-width: 48vw; height: auto; }
-    .otp-controls { display: grid; gap: 8px; margin-top: 9px; }
-    .otp-controls > .btn { justify-self: start; white-space: nowrap; }
     .badge { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #cbdff1; border-radius: 999px; padding: 5px 11px; background: #f3f8fc; color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
     .badge.good { border-color: #cdebd7; background: #f1fbf4; color: var(--green); }
     .badge.bad { border-color: #f0cbcb; background: var(--red-pale); color: var(--red); }
@@ -179,43 +177,85 @@
     .toast { position: fixed; right: 18px; bottom: 18px; z-index: 10; max-width: min(420px, calc(100vw - 36px)); padding: 12px 16px; border-radius: 9px; background: #182230; color: white; box-shadow: var(--shadow); font-size: 12px; }
     .loading { opacity: .65; pointer-events: none; }
     body.application-mode { --blue: #095397; --blue-dark: #1467b4; }
-    body.application-mode { padding: 20px; }
-    body.application-mode .shell { width: min(100%, 750px); }
-    body.application-mode .card { border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,.08); }
+    body.application-mode { padding: 32px 24px; font-size: 16px; }
+    body.application-mode .shell { width: min(100%, 980px); }
+    body.application-mode .card { border-radius: 16px; box-shadow: 0 16px 48px rgba(15, 40, 70, .12); animation: card-enter .65s cubic-bezier(.2,.75,.25,1) both; }
     body.application-mode .topbar { display: none; }
-    body.application-mode .header { padding: 24px; border-top: 6px solid var(--blue); }
-    body.application-mode .brand-logo { width: 166px; height: 40px; object-fit: contain; object-position: left center; }
-    body.application-mode #headerBadge { padding: 6px 14px; background: #eef6ff; border-color: #bce0fd; color: var(--blue); font-size: 11px; letter-spacing: .5px; }
-    body.application-mode h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: 0; }
-    body.application-mode .subtitle { margin-bottom: 16px; font-size: 13px; }
-    body.application-mode .highlight-banner { margin-top: 0; padding: 14px; border-radius: 8px; background: linear-gradient(135deg, #095397, #1467b4); }
-    body.application-mode .highlight-value { color: #ffc107; font-size: 18px; }
-    body.application-mode .highlight-label { color: #e2e8f0; font-size: 11px; letter-spacing: 0; }
+    body.application-mode .header { padding: 30px 36px 26px; border-top: 6px solid var(--blue); }
+    body.application-mode .brand-logo { width: 190px; height: 46px; object-fit: contain; object-position: left center; }
+    body.application-mode #headerBadge { padding: 7px 14px; background: #eef6ff; border-color: #bce0fd; color: var(--blue); font-size: 12px; letter-spacing: .5px; }
+    body.application-mode h1 { margin: 0 0 7px; font-size: clamp(26px, 3vw, 32px); letter-spacing: 0; }
+    body.application-mode .subtitle { margin-bottom: 19px; font-size: 15px; }
+    body.application-mode .highlight-banner { margin-top: 0; padding: 17px; border-radius: 10px; background: linear-gradient(135deg, #095397, #1467b4); }
+    body.application-mode .highlight-value { color: #ffc107; font-size: 21px; }
+    body.application-mode .highlight-label { color: #e2e8f0; font-size: 13px; letter-spacing: 0; }
     body.application-mode .content { padding: 0; }
     body.application-mode .steps { display: none; }
-    body.application-mode .form-section { padding: 20px 24px; border-top: 0; border-bottom: 1px solid #e2e8f0; }
-    body.application-mode .form-section:first-of-type { padding-top: 20px; }
-    body.application-mode .section-title { margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid #f8fafc; color: var(--blue); font-size: 14px; letter-spacing: .5px; }
-    body.application-mode label, body.application-mode .field-label { margin-bottom: 6px; color: #475569; font-size: 13px; }
-    body.application-mode input[type="text"], body.application-mode input[type="tel"], body.application-mode input[type="email"], body.application-mode select, body.application-mode textarea { min-height: 0; padding: 10px; border-color: #cbd5e1; border-radius: 6px; background: #f8fafc; font-size: 13px; }
-    body.application-mode input:focus, body.application-mode select:focus, body.application-mode textarea:focus { border-color: var(--blue); box-shadow: none; }
-    body.application-mode .options { gap: 8px; margin-top: 4px; }
-    body.application-mode .option { align-items: center; gap: 8px; color: #0f172a; font-size: 13px; }
-    body.application-mode .option input { margin: 0; }
+    body.application-mode .form-section { padding: 25px 36px; border-top: 0; border-bottom: 1px solid #e2e8f0; animation: section-enter .55s both; }
+    body.application-mode .form-section:nth-of-type(2) { animation-delay: .08s; }
+    body.application-mode .form-section:nth-of-type(3) { animation-delay: .16s; }
+    body.application-mode .form-section:first-of-type { padding-top: 27px; }
+    body.application-mode .section-title { margin-bottom: 17px; padding-bottom: 8px; border-bottom: 2px solid #f1f5f9; color: var(--blue); font-size: 16px; letter-spacing: .5px; }
+    body.application-mode label, body.application-mode .field-label { margin-bottom: 8px; color: #334155; font-size: 15px; line-height: 1.45; }
+    body.application-mode input[type="text"], body.application-mode input[type="tel"], body.application-mode input[type="email"], body.application-mode select, body.application-mode textarea { min-height: 48px; padding: 12px 14px; border-color: #cbd5e1; border-radius: 8px; background: #f8fafc; font-size: 15px; }
+    body.application-mode input:focus, body.application-mode select:focus, body.application-mode textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(9, 83, 151, .13); }
+    body.application-mode .grid { gap: 19px 22px; }
+    body.application-mode .options { gap: 10px; margin-top: 5px; }
+    body.application-mode .option { align-items: flex-start; gap: 10px; color: #0f172a; font-size: 15px; line-height: 1.5; }
+    body.application-mode .option input { width: 17px; height: 17px; flex: 0 0 17px; margin: 2px 0 0; }
     body.application-mode .required { color: #2878e1; }
-    body.application-mode .otp-row { display: flex; gap: 8px; }
-    body.application-mode .btn-verify { flex: 0 0 auto; padding: 0 14px; border: 0; border-radius: 6px; background: #25d366; color: white; font-size: 12px; font-weight: 700; cursor: pointer; }
-    body.application-mode .btn-verify:hover:not(:disabled) { background: #1eb954; }
-    body.application-mode .btn-verify:disabled { opacity: .55; cursor: not-allowed; }
-    body.application-mode .verified-badge { display: flex; align-items: center; gap: 4px; margin-top: 6px; color: #16a34a; font-size: 12px; font-weight: 700; }
-    body.application-mode .otp-box { margin-top: 10px; padding: 12px; border: 1px dashed #25d366; border-radius: 6px; background: #f0fdf4; }
-    body.application-mode .otp-box p { margin: 0 0 8px; color: #166534; font-size: 12px; }
-    body.application-mode .otp-input-group { display: flex; gap: 8px; }
-    body.application-mode .btn-otp-submit { flex: 0 0 auto; padding: 0 16px; border: 0; border-radius: 6px; background: var(--blue); color: white; font-size: 12px; font-weight: 700; cursor: pointer; }
-    body.application-mode .btn-otp-submit:disabled { opacity: .55; cursor: not-allowed; }
-    body.application-mode #startPaymentBtn { background: #ed7900; color: #fff; font-size: 15px; letter-spacing: .8px; text-transform: uppercase; }
+    body.application-mode .input-with-btn, body.application-mode .otp-input-group { display: flex; gap: 10px; }
+    body.application-mode .btn-verify, body.application-mode .btn-otp-submit {
+      position: relative;
+      overflow: hidden;
+      min-height: 48px;
+      flex: 0 0 auto;
+      padding: 0 19px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #25d366, #149447);
+      color: white;
+      font-size: 15px;
+      font-weight: 750;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(22, 132, 72, .24);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      animation: verify-glow 2.8s ease-in-out infinite;
+    }
+    body.application-mode .btn-verify::after, body.application-mode .btn-otp-submit::after {
+      position: absolute;
+      top: -40%;
+      bottom: -40%;
+      left: -65%;
+      width: 42%;
+      content: "";
+      transform: skewX(-22deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+      animation: button-shine 3.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    body.application-mode .btn-verify:hover, body.application-mode .btn-otp-submit:hover { transform: translateY(-2px); box-shadow: 0 9px 20px rgba(22, 132, 72, .32); }
+    body.application-mode .btn-verify:active, body.application-mode .btn-otp-submit:active { transform: translateY(0); }
+    body.application-mode .btn-verify:focus-visible, body.application-mode .btn-otp-submit:focus-visible { outline: 3px solid #86efac; outline-offset: 3px; }
+    body.application-mode .verified-badge { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: #15803d; font-size: 14px; font-weight: 750; animation: verified-enter .35s ease-out both; }
+    body.application-mode .otp-box { margin-top: 12px; padding: 16px; border: 1px dashed #25d366; border-radius: 9px; background: #f0fdf4; animation: section-enter .3s ease-out both; }
+    body.application-mode .otp-box p { margin: 0 0 10px; color: #166534; font-size: 14px; }
+    body.application-mode .verification-disclaimer { margin-top: 9px; color: #775317; font-size: 13px; line-height: 1.55; }
+    body.application-mode .hint { font-size: 13px; line-height: 1.5; }
+    body.application-mode .notice { font-size: 14px; line-height: 1.5; }
+    body.application-mode #startPaymentBtn { min-height: 50px; padding: 12px 28px; background: #ed7900; color: #fff; font-size: 16px; letter-spacing: .8px; text-transform: uppercase; }
     body.application-mode #startPaymentBtn:hover:not(:disabled) { background: #e06d00; }
-    body.application-mode .footer { padding: 0 24px 20px; border-top: 0; }
+    body.application-mode .actions { padding: 25px 36px 0; }
+    body.application-mode .footer { padding: 0 36px 25px; border-top: 0; font-size: 13px; }
+    @keyframes card-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes section-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes verify-glow { 0%, 100% { box-shadow: 0 6px 16px rgba(22, 132, 72, .2); } 50% { box-shadow: 0 7px 22px rgba(22, 132, 72, .36); } }
+    @keyframes button-shine { 0%, 24% { left: -65%; } 58%, 100% { left: 130%; } }
+    @keyframes verified-enter { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .error-overlay { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(15,23,42,.85); }
+    .error-modal { width: 100%; max-width: 480px; padding: 24px; border-top: 6px solid var(--red); border-radius: 12px; background: white; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,.3); }
+    .error-title { margin-bottom: 8px; color: var(--red); font-size: 18px; font-weight: 700; }
+    .error-desc { margin-bottom: 20px; color: var(--muted); font-size: 13px; line-height: 1.5; }
     @media (max-width: 600px) {
       body { padding: 13px 10px; }
       .header { padding: 20px 18px 17px; }
@@ -236,11 +276,17 @@
       body.application-mode .header { padding: 20px 18px; }
       body.application-mode .form-section { padding: 20px 18px; }
       body.application-mode .footer { padding: 0 18px 20px; }
-      body.application-mode .otp-row { flex-wrap: wrap; }
-      body.application-mode .otp-row .btn-verify { min-height: 40px; }
-      body.application-mode .otp-input-group { flex-wrap: wrap; }
+      body.application-mode .input-with-btn, body.application-mode .otp-input-group { flex-wrap: wrap; }
+      body.application-mode .btn-verify, body.application-mode .btn-otp-submit { min-height: 48px; }
     }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -283,19 +329,19 @@
               </div>
               <div class="field">
                 <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
-                <div class="otp-row">
+                <div class="input-with-btn">
                   <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="Enter WhatsApp number" required>
-                  <button id="sendOtpBtn" class="btn-verify" type="button">Send OTP</button>
+                  <button type="button" id="sendOtpBtn" class="btn-verify">Send OTP</button>
                 </div>
-                <div id="verifiedBadge" class="verified-badge hidden">✓ WhatsApp Number Verified</div>
+                <div id="verifiedBadge" class="verified-badge hidden">✓ Code matched (demo only; not identity verified)</div>
                 <div id="otpBox" class="otp-box hidden">
-                  <p>Enter the 6-digit verification code sent to your WhatsApp:</p>
+                  <p>Enter the 6-digit code shown in the prefilled WhatsApp message:</p>
                   <div class="otp-input-group">
-                    <input id="whatsappOtp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="ENTER OTP" autocomplete="one-time-code" aria-label="WhatsApp verification code" disabled>
-                    <button id="verifyOtpBtn" class="btn-otp-submit hidden" type="button" disabled>Verify</button>
+                    <input type="text" id="otpInput" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="ENTER OTP" autocomplete="one-time-code">
+                    <button type="button" id="verifyOtpBtn" class="btn-otp-submit">Verify</button>
                   </div>
                 </div>
-                <p id="whatsappOtpStatus" class="hint" role="status">Verify your WhatsApp number to continue to payment.</p>
+                <p class="verification-disclaimer">Demo only: the code is generated in this browser and placed in a WhatsApp message for you to send. This does not prove phone ownership and can be bypassed; do not use as secure verification.</p>
               </div>
               <div class="field">
                 <label for="email">Email Address <span class="required">*</span></label>
@@ -345,7 +391,7 @@
             </div>
           </section>
           <div id="formNotice" class="notice hidden" role="status"></div>
-          <div class="actions"><button id="startPaymentBtn" class="btn" type="submit">Pay ₹299 &amp; Continue</button></div>
+          <div class="actions"><button id="startPaymentBtn" class="btn" type="submit" disabled>Pay ₹299 &amp; Continue</button></div>
           <p class="hint" style="text-align:center">Your application is submitted only after an administrator confirms receipt of the fee.</p>
         </form>
       </section>
@@ -461,6 +507,13 @@
           <footer class="footer"><strong>Tata Power Solar Systems Limited</strong> · Official Channel Partner Onboarding Form<br>Applications are processed in coordination with West Bengal regional representatives. · <a href="?admin=1">Admin review</a></footer>
     </article>
   </main>
+  <div id="errorOverlay" class="error-overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="errorTitle">
+    <div class="error-modal">
+      <div id="errorTitle" class="error-title">Verification / Submission Failed</div>
+      <p id="errorMessage" class="error-desc"></p>
+      <button id="closeErrorBtn" type="button" class="btn red">Try Again</button>
+    </div>
+  </div>
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
   <script>
@@ -475,7 +528,9 @@
     let currentPayment = null;
     let pollTimer = null;
     let isSubmitting = false;
-    let whatsappVerificationId = null;
+    let generatedOtp = null;
+    let isVerified = false;
+    let verifiedWhatsApp = null;
 
     async function api(path, options = {}) {
       const headers = new Headers(options.headers || {});
@@ -557,9 +612,8 @@
       event.preventDefault();
       const application = collectApplication();
       if (!application) return;
-      if (!whatsappVerificationId) {
-        notice($("formNotice"), "Verify your WhatsApp number before continuing to payment.", "error");
-        $("whatsapp").focus();
+      if (!isVerified || verifiedWhatsApp !== application.whatsapp) {
+        showErrorOverlay("Complete the WhatsApp code check before continuing. This demo check is not secure identity verification.");
         return;
       }
       const button = $("startPaymentBtn");
@@ -569,10 +623,9 @@
       try {
         const payment = await api("/payments/initiate", {
           method: "POST",
-          body: { application, whatsapp_verification_id: whatsappVerificationId }
+          body: { application }
         });
         await openPayment(payment);
-        whatsappVerificationId = null;
       } catch (error) {
         notice($("formNotice"), error.message, "error");
       } finally {
@@ -581,79 +634,67 @@
       }
     }
 
-    function clearWhatsAppVerification() {
-      whatsappVerificationId = null;
-      $("whatsapp").readOnly = false;
-      $("whatsappOtp").value = "";
-      $("whatsappOtp").disabled = true;
-      $("verifyOtpBtn").disabled = true;
-      $("verifyOtpBtn").classList.add("hidden");
-      $("otpBox").classList.add("hidden");
-      $("verifiedBadge").classList.add("hidden");
-      $("sendOtpBtn").disabled = false;
-      $("sendOtpBtn").textContent = "Send OTP";
-      $("whatsappOtpStatus").textContent = "Verify your WhatsApp number to continue to payment.";
-    }
-
-    async function sendWhatsAppOtp() {
+    function initiateWhatsAppVerification() {
       const phone = $("whatsapp").value.trim();
       if (!/^\d{10}$/.test(phone)) {
-        notice($("formNotice"), "Enter a valid 10-digit WhatsApp number first.", "error");
+        showErrorOverlay("Please enter a valid 10-digit WhatsApp number.");
         $("whatsapp").focus();
         return;
       }
-      const button = $("sendOtpBtn");
-      button.disabled = true;
-      button.textContent = "Sending…";
-      try {
-        const result = await api("/whatsapp-otp/send", { method: "POST", body: { phone } });
-        if ($("whatsapp").value.trim() !== phone) {
-          throw new Error("The WhatsApp number changed. Send a new OTP to verify the updated number.");
-        }
-        $("whatsappOtp").disabled = false;
-        $("verifyOtpBtn").disabled = false;
-        $("verifyOtpBtn").classList.remove("hidden");
-        $("otpBox").classList.remove("hidden");
-        $("whatsappOtpStatus").textContent = result.message;
-        $("sendOtpBtn").textContent = "Resend Code";
-        $("whatsappOtp").focus();
-      } catch (error) {
-        notice($("formNotice"), error.message, "error");
-      } finally {
-        button.disabled = false;
-        button.textContent = "Resend OTP";
-      }
+
+      isVerified = false;
+      verifiedWhatsApp = null;
+      $("verifiedBadge").classList.add("hidden");
+      $("startPaymentBtn").disabled = true;
+      generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const textMessage = encodeURIComponent(
+        `Tata Power Solar Application Verification Code: ${generatedOtp}\n\nPlease enter this code on the form to complete registration.`
+      );
+      window.open(`https://wa.me/91${phone}?text=${textMessage}`, "_blank");
+      $("otpBox").classList.remove("hidden");
+      $("sendOtpBtn").textContent = "Resend Code";
+      $("otpInput").value = "";
+      $("otpInput").focus();
     }
 
-    async function verifyWhatsAppOtp() {
-      const phone = $("whatsapp").value.trim();
-      const code = $("whatsappOtp").value.trim();
-      if (!/^\d{10}$/.test(phone) || !/^\d{6}$/.test(code)) {
-        notice($("formNotice"), "Enter your 10-digit WhatsApp number and the 6-digit OTP.", "error");
+    function verifyOtp() {
+      const userOtp = $("otpInput").value.trim();
+      if (generatedOtp !== null && userOtp === generatedOtp) {
+        isVerified = true;
+        verifiedWhatsApp = $("whatsapp").value.trim();
+        $("otpBox").classList.add("hidden");
+        $("sendOtpBtn").classList.add("hidden");
+        $("whatsapp").readOnly = true;
+        $("verifiedBadge").classList.remove("hidden");
+        $("startPaymentBtn").disabled = false;
         return;
       }
-      const button = $("verifyOtpBtn");
-      button.disabled = true;
-      button.textContent = "Verifying…";
-      try {
-        const result = await api("/whatsapp-otp/verify", { method: "POST", body: { phone, code } });
-        if ($("whatsapp").value.trim() !== phone) {
-          throw new Error("The WhatsApp number changed. Request a new OTP for the updated number.");
-        }
-        whatsappVerificationId = result.verification_id;
-        $("whatsapp").readOnly = true;
-        $("whatsappOtp").disabled = true;
-        $("otpBox").classList.add("hidden");
-        button.classList.add("hidden");
-        $("verifiedBadge").classList.remove("hidden");
-        $("sendOtpBtn").classList.add("hidden");
-        $("whatsappOtpStatus").textContent = "WhatsApp number verified.";
-        $("formNotice").classList.add("hidden");
-      } catch (error) {
-        notice($("formNotice"), error.message, "error");
-        button.disabled = false;
-        button.textContent = "Verify OTP";
-      }
+      showErrorOverlay("Invalid code entered. The demo code check failed.");
+    }
+
+    function resetWhatsAppVerification() {
+      if ($("whatsapp").readOnly) return;
+      generatedOtp = null;
+      isVerified = false;
+      verifiedWhatsApp = null;
+      $("otpInput").value = "";
+      $("otpBox").classList.add("hidden");
+      $("verifiedBadge").classList.add("hidden");
+      $("sendOtpBtn").classList.remove("hidden");
+      $("sendOtpBtn").textContent = "Send OTP";
+      $("startPaymentBtn").disabled = true;
+    }
+
+    function showErrorOverlay(message) {
+      $("errorMessage").textContent = message;
+      $("errorOverlay").classList.remove("hidden");
+    }
+
+    function closeErrorOverlay() {
+      $("errorOverlay").classList.add("hidden");
+      $("otpInput").value = "";
+      if (!$("otpBox").classList.contains("hidden")) $("otpInput").focus();
     }
 
     async function openPayment(payment) {
@@ -920,9 +961,10 @@
 
     async function initialize() {
       $("applicationForm").addEventListener("submit", startPayment);
-      $("sendOtpBtn").addEventListener("click", sendWhatsAppOtp);
-      $("verifyOtpBtn").addEventListener("click", verifyWhatsAppOtp);
-      $("whatsapp").addEventListener("input", clearWhatsAppVerification);
+      $("sendOtpBtn").addEventListener("click", initiateWhatsAppVerification);
+      $("verifyOtpBtn").addEventListener("click", verifyOtp);
+      $("whatsapp").addEventListener("input", resetWhatsAppVerification);
+      $("closeErrorBtn").addEventListener("click", closeErrorOverlay);
       $("utrForm").addEventListener("submit", submitUtr);
       $("copyVpaBtn").addEventListener("click", copyVpa);
       $("reportFailureBtn").addEventListener("click", reportFailure);
